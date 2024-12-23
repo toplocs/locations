@@ -12,7 +12,7 @@
         </ion-toolbar>
       </ion-header>
 
-      <ExploreContainer name="Tab 1 page" />
+      <ExploreContainer name="Profil Liste mit Standorten" />
     </ion-content>
   </ion-page>
 </template>
