@@ -12,7 +12,7 @@
         </ion-toolbar>
       </ion-header>
 
-      <ExploreContainer name="Tab 2 page" />
+      <ExploreContainer name="Karte mit pins" />
     </ion-content>
   </ion-page>
 </template>
