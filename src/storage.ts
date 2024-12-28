@@ -2,7 +2,7 @@ import axios from 'axios';
 import { Storage } from "@ionic/storage";
 
 export default {
-  install: async (app) => {
+  install: async (): Promise<void> => {
     const storage = new Storage();
     await storage.create();
 

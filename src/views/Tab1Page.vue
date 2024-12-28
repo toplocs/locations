@@ -21,10 +21,9 @@
 import axios from 'axios';
 import { ref, onMounted } from 'vue';
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
-import ExploreContainer from '@/components/ExploreContainer.vue';
-import ProfileList from '@/components/ProfileList.vue';
+import { Profile } from '../types';
 
-const profiles = ref([]);
+const profiles = ref<Profile[]>([]);
 
 const fetchProfiles = async () => {
   try {

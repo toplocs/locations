@@ -54,30 +54,14 @@ import {
   IonPage,
   IonButton
 } from '@ionic/vue';
-import storage from '../StorageService.ts';
+import storage from '../StorageService';
+import { Session, Profile } from '../types';
 
 const router = useRouter();
-const session = inject('session');
-const profile = inject('profile');
+const session = inject<{value: Session}>('session');
+const profile = inject<{value: Profile}>('profile');
 const errorMessage = ref('');
 const form = ref<HTMLFormElement | null>(null);
-
-const getSession = async (authHeader: string) => {
-  try {
-    const response = await axios.get(`/api/auth`, {
-      headers: {
-        'Authorization': authHeader,
-        'Content-Type': 'application/json'
-      }
-    });
-    const { session } = response.data;
-    console.log(session)
-
-    return session;
-  } catch (e) {
-    console.error(e);
-  }
-}
 
 const sendLogin = async () => {
   try {
@@ -86,27 +70,45 @@ const sendLogin = async () => {
 
     return response.data;
   } catch (error) {
-    errorMessage.value = error.response.data;
+    errorMessage.value = (error as any).response?.data || 'An error occurred';
     console.error(error);
   }
+}
+
+const getSession = async (authHeader: string) => {
+  let session: Session | null = null;
+  try {
+    const response = await axios.get(`/api/auth`, {
+      headers: {
+        'Authorization': authHeader,
+        'Content-Type': 'application/json'
+      }
+    });
+    session = response.data.session;
+  } catch (e) {
+    console.error(e);
+  }
+  if (!session) throw new Error('Invalid session');  
+  return session;
 }
 
 const onSubmit = async () => {
   if (!form.value) return;
   errorMessage.value = '';
   try {
-    const authHeader = await sendLogin();
+    let authHeader = await sendLogin();
     if (authHeader) {
-      axios.defaults.headers.common['Authorization'] = JSON.stringify(authHeader);
-      await storage.set('authHeader', JSON.stringify(authHeader));
-      session.value = await getSession(JSON.stringify(authHeader));
+      authHeader = JSON.stringify(authHeader);
+      axios.defaults.headers.common['Authorization'] = authHeader;
+      await storage.set('authHeader', authHeader);
 
-      if (profile.value) return router.push(`/tabs`);
+      if (session) session.value = await getSession(authHeader);
+      if (profile && profile.value) return router.push(`/tabs`);
       
       return router.push(`/tabs`);
     }
   } catch (error) {
-    errorMessage.value = error.response.data;
+    errorMessage.value = (error as any).response?.data || 'An error occurred';
     console.error(error);
   }
 }

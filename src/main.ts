@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router';
+import storagePlugin from './storage';
 
 import { IonicVue } from '@ionic/vue';
 
@@ -19,8 +20,6 @@ import '@ionic/vue/css/text-alignment.css';
 import '@ionic/vue/css/text-transformation.css';
 import '@ionic/vue/css/flex-utils.css';
 import '@ionic/vue/css/display.css';
-
-import storagePlugin from './storage.ts';
 
 /**
  * Ionic Dark Mode
