@@ -2,10 +2,18 @@
   <ion-list>
     <ion-item v-for="profile of profiles">
       <ion-avatar slot="start">
-        <img alt="Silhouette of a person's head" :src="profile.image" />
+        <img :src="profile.image" />
       </ion-avatar>
+
       <ion-label>
-        {{profile.username}} – {{profile.type}}
+        <p>{{profile.username}} – {{profile.type}}</p>
+
+        <ion-chip
+          color="primary"
+          v-for="location of profile.locations"
+        >
+          {{ location.title }}
+        </ion-chip>
       </ion-label>
     </ion-item>
   </ion-list>
@@ -16,7 +24,8 @@
     IonItem,
     IonLabel,
     IonList,
-    IonAvatar
+    IonAvatar,
+    IonChip,
   } from '@ionic/vue';
   import { defineComponent } from 'vue';
 

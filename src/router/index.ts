@@ -6,7 +6,7 @@ import LoginPage from '../views/LoginPage.vue'
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    redirect: '/login'
+    redirect: '/tabs'
   },
   {
     path: '/login',
@@ -26,7 +26,7 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: 'tab2',
-        component: () => import('@/views/Tab2Page.vue')
+        component: () => import('@/views/LoginPage.vue')
       },
       {
         path: 'tab3',

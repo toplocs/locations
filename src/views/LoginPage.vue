@@ -102,7 +102,6 @@ const onSubmit = async () => {
       session.value = await getSession(JSON.stringify(authHeader));
 
       if (profile.value) return router.push(`/tabs`);
-      
       return router.push(`/tabs`);
     }
   } catch (error) {
