@@ -2,13 +2,13 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Tab 3</ion-title>
+        <ion-title>History</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
       <ion-header collapse="condense">
         <ion-toolbar>
-          <ion-title size="large">Tab 3</ion-title>
+          <ion-title size="large">Location History</ion-title>
         </ion-toolbar>
       </ion-header>
 
@@ -26,16 +26,17 @@ import axios from 'axios';
 import { inject } from 'vue';
 import { useRouter } from 'vue-router';
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton } from '@ionic/vue';
-import ExploreContainer from '@/components/ExploreContainer.vue';
+import { Session } from '../types';
+import ExploreContainer from '../components/ExploreContainer.vue';
 
 const router = useRouter();
-const session = inject('session');
+const session = inject<{value: Session | null}>('session');
 
 const logout = async () => {
   try {
-    session.value = null;
-    //profile.value = null;
+    if (session) session.value = null;
     axios.defaults.headers.common['Authorization'] = null;
+    //profile.value = null;
     //localStorage.removeItem('authHeader');
     router.push('/login');
   } catch (error) {
