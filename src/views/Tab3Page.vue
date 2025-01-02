@@ -22,11 +22,13 @@
 </template>
 
 <script setup lang="ts">
+import { Session } from '../types';
+
 import axios from 'axios';
 import { inject } from 'vue';
 import { useRouter } from 'vue-router';
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton } from '@ionic/vue';
-import { Session } from '../types';
+import storage from '../StorageService';
 import ExploreContainer from '../components/ExploreContainer.vue';
 
 const router = useRouter();
@@ -37,7 +39,7 @@ const logout = async () => {
     if (session) session.value = null;
     axios.defaults.headers.common['Authorization'] = null;
     //profile.value = null;
-    //localStorage.removeItem('authHeader');
+    await storage.remove('authHeader');
     router.push('/login');
   } catch (error) {
     console.error(error);

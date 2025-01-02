@@ -1,16 +1,21 @@
+import axios from 'axios';
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import { RouteRecordRaw } from 'vue-router';
+import storage from '../StorageService';
 import TabsPage from '../views/TabsPage.vue'
 import LoginPage from '../views/LoginPage.vue'
+
+const serverURL = '//localhost:3000';
+axios.defaults.baseURL = serverURL;
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    redirect: '/tabs'
+    redirect: '/login'
   },
   {
     path: '/login',
-    component: LoginPage
+    component: () => import('@/views/LoginPage.vue')
   },
   {
     path: '/tabs/',
@@ -26,7 +31,7 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: 'tab2',
-        component: () => import('@/views/LoginPage.vue')
+        component: () => import('@/views/Tab2Page.vue')
       },
       {
         path: 'tab3',
@@ -39,6 +44,29 @@ const routes: Array<RouteRecordRaw> = [
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes
-})
+});
+
+const getSession = async (authHeader: string) => {
+  const response = await axios.get(`/api/auth`, {
+      headers: {
+        'Authorization': authHeader,
+        'Content-Type': 'application/json'
+      }
+    });
+
+  return response.data;
+}
+
+//middleware
+router.beforeEach(async (to, from, next) => {
+  const authHeader = await storage.get('authHeader');
+  const { session } = await getSession(authHeader);
+
+  if (to.path === '/login' && session) {
+    next('/tabs/tab1');
+  } else {
+    next();
+  }
+});
 
 export default router
