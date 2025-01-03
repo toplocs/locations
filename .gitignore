@@ -30,3 +30,9 @@ npm-debug.log*
 /platforms
 /plugins
 /www
+
+# Ignore environment variable files
+.env
+.env.local
+.env.*.local
+
