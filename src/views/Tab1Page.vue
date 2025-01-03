@@ -18,10 +18,12 @@
 </template>
 
 <script setup lang="ts">
+import { Profile } from '../types';
+
 import axios from 'axios';
 import { ref, onMounted } from 'vue';
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
-import { Profile } from '../types';
+import ProfileList from '../components/ProfileList.vue';
 
 const profiles = ref<Profile[]>([]);
 
@@ -37,6 +39,5 @@ const fetchProfiles = async () => {
 
 onMounted(async () => {
   profiles.value = await fetchProfiles();
-  console.log(profiles.value);
 });
 </script>

@@ -13,7 +13,6 @@ import { useRouter } from 'vue-router';
 import { Session, User, Profile, Location } from './types';
 
 const serverURL = '//localhost:3000';
-const router = useRouter();
 const session = ref<Session | null>(null);
 const user = ref<User | null>(null);
 const profile = ref<Profile | null>(null);

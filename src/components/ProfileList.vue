@@ -30,10 +30,10 @@
   import { defineComponent } from 'vue';
   import { Profile } from '../toplocs';
 
-
   const props = defineProps<{
     profiles: Profile[];
   }>();
+  console.log(props.profiles)
 
 
 </script>
