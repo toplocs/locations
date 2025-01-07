@@ -9,6 +9,7 @@
 	import axios from 'axios';
 	import { ref, watch, shallowRef, onMounted } from 'vue';
 	import { GoogleMap } from '@capacitor/google-maps';
+	import { Geolocation } from '@capacitor/geolocation';
 
 	const mapRef = ref<HTMLElement>();
 	const map = shallowRef<GoogleMap>();
@@ -31,18 +32,27 @@
 	}
 
 	const getMyLocation = async () => {
-		navigator?.geolocation.getCurrentPosition((position) => {
-			const currentLocation = {
-				coordinate: {
-					lat: position.coords.latitude,
-       		lng: position.coords.longitude,
-				}
-      };
-      map.value.setCamera(currentLocation);
-      location.value = currentLocation;
-		}, (e) => {
-      console.error(e);
-    });
+		map.value.enableCurrentLocation(true);
+		const coordinates = await Geolocation.getCurrentPosition();
+		const lat = coordinates.coords.latitude;
+  	const lng = coordinates.coords.longitude;
+    await map.value.addCircles([{
+	    center: { lat, lng },
+	    radius: 50000,
+	    fillColor: 'rgba(0, 0, 255)',
+	    strokeColor: '#0000FF',
+	    strokeWeight: 2,
+	    fillOpacity: 0.1,
+	    geodesic: true,
+	    clickable: false,
+	    title: '50km Radius',
+	  }]);
+	  location.value = {
+	  	coordinate: {
+				lat: lat,
+     		lng: lng,
+			}
+	  };
 	}
 
 	const fetchNearby = async ({ lat, lng }) => {
@@ -56,18 +66,13 @@
 	}
 
 	watch(location, async () => {
-		const nearby = await fetchNearby(location.value.coordinate);
-		if (nearby) {
+		const places = await fetchNearby(location.value.coordinate);
+		for (let place of places) {
+			console.log(place);
 			const markerId = await map.value.addMarker({
 			  coordinate: {
-			    lat: nearby.latitude,
-			    lng: nearby.longitude
-			  }
-			});
-			await map.value.setCamera({
-			  coordinate: {
-			    lat: nearby.latitude,
-			    lng: nearby.longitude
+			    lat: place.latitude,
+			    lng: place.longitude
 			  }
 			});
 			await map.value.enableClustering();
