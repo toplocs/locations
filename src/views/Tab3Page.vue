@@ -8,15 +8,13 @@
     <ion-content :fullscreen="true">
       <ion-header collapse="condense">
         <ion-toolbar>
-          <ion-title size="large">Location History</ion-title>
+          <ion-title size="large">
+            Location History
+          </ion-title>
         </ion-toolbar>
       </ion-header>
 
-      <ExploreContainer name="Location history" />
-
-      <ion-button @click="logout" shape="round" expand="full">
-        Logout
-      </ion-button>
+      <LocationList :locations="locations" />
     </ion-content>
   </ion-page>
 </template>
@@ -25,24 +23,39 @@
 import { Session } from '../types';
 
 import axios from 'axios';
-import { inject } from 'vue';
+import { ref, inject, watchEffect } from 'vue';
 import { useRouter } from 'vue-router';
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton } from '@ionic/vue';
+import {
+  IonPage,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonContent,
+  IonButton
+} from '@ionic/vue';
 import storage from '../StorageService';
-import ExploreContainer from '../components/ExploreContainer.vue';
+import LocationList from '../components/LocationList.vue';
 
 const router = useRouter();
 const session = inject<{value: Session | null}>('session');
+const profile = inject('profile');
+const locations = ref([]);
 
-const logout = async () => {
+const fetchProfileLocations = async (id: string) => {
   try {
-    if (session) session.value = null;
-    axios.defaults.headers.common['Authorization'] = null;
-    //profile.value = null;
-    await storage.remove('authHeader');
-    router.push('/login');
+    const response = await axios.get(`/api/profile/locations/${id}`);
+    console.log(response.data)
+
+    return response.data;
   } catch (error) {
     console.error(error);
   }
 }
+
+watchEffect(async () => {
+  if (profile.value) {
+    locations.value = await fetchProfileLocations(profile.value.id);
+  }
+});
+
 </script>

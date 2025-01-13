@@ -7,12 +7,13 @@
 
 <script setup lang="ts">
 	import axios from 'axios';
-	import { ref, watch, shallowRef, onMounted } from 'vue';
+	import { ref, watch, inject, shallowRef, onMounted } from 'vue';
 	import { GoogleMap } from '@capacitor/google-maps';
 	import { Geolocation } from '@capacitor/geolocation';
 
 	const mapRef = ref<HTMLElement>();
 	const map = shallowRef<GoogleMap>();
+	const profile = inject('profile');
 	const location = ref(null);
 	const current = ref(null);
 
@@ -61,7 +62,7 @@
 	const updateCurrentLocation = async (lat, lng) => {
 	  try {
 	    const response = await axios.post('/api/location/updateCurrent', {
-	    	profileId: '',
+	    	profileId: profile.value?.id,
 	      lat: lat,
 	      lng: lng,
 	    });
