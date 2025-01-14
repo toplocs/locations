@@ -33,7 +33,6 @@ import {
   IonContent,
   IonButton
 } from '@ionic/vue';
-import storage from '../StorageService';
 import LocationList from '../components/LocationList.vue';
 
 const router = useRouter();
@@ -44,7 +43,6 @@ const locations = ref([]);
 const fetchProfileLocations = async (id: string) => {
   try {
     const response = await axios.get(`/api/profile/locations/${id}`);
-    console.log(response.data)
 
     return response.data;
   } catch (error) {
