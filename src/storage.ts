@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Storage } from "@ionic/storage";
+import { Storage } from '@ionic/storage';
 
 export default {
   install: async (): Promise<void> => {
