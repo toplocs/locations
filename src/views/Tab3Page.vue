@@ -9,7 +9,7 @@
       <ion-header collapse="condense">
         <ion-toolbar>
           <ion-title size="large">
-            Location History
+            History
           </ion-title>
         </ion-toolbar>
       </ion-header>
@@ -23,8 +23,6 @@
 import { Session } from '../types';
 
 import axios from 'axios';
-import { ref, inject, watchEffect } from 'vue';
-import { useRouter } from 'vue-router';
 import {
   IonPage,
   IonHeader,
@@ -33,6 +31,8 @@ import {
   IonContent,
   IonButton
 } from '@ionic/vue';
+import { ref, inject, watchEffect } from 'vue';
+import { useRouter } from 'vue-router';
 import LocationList from '../components/LocationList.vue';
 
 const router = useRouter();
@@ -42,7 +42,7 @@ const locations = ref([]);
 
 const fetchProfileLocations = async (id: string) => {
   try {
-    const response = await axios.get(`/api/profile/locations/${id}`);
+    const response = await axios.get(`/api/v2/profile/locations/${id}`);
 
     return response.data;
   } catch (error) {

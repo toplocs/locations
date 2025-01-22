@@ -4,8 +4,8 @@ import { RouteRecordRaw } from 'vue-router';
 import storage from '../StorageService';
 import TabsPage from '../views/TabsPage.vue'
 import LoginPage from '../views/LoginPage.vue'
+import { serverURL } from '@/config.ts';
 
-const serverURL = '//localhost:3000';
 axios.defaults.baseURL = serverURL;
 
 const routes: Array<RouteRecordRaw> = [
@@ -25,17 +25,32 @@ const routes: Array<RouteRecordRaw> = [
         path: '',
         redirect: '/tabs/tab1'
       },
+
       {
         path: 'tab1',
-        component: () => import('@/views/Tab1Page.vue')
+        component: () => import('@/views/Tab1Page.vue'),
       },
+      {
+        path: 'tab1/settings',
+        component: () => import('@/views/tab1/Settings.vue'),
+      },
+
       {
         path: 'tab2',
-        component: () => import('@/views/Tab2Page.vue')
+        component: () => import('@/views/Tab2Page.vue'),
       },
       {
+        path: 'tab2/new',
+        component: () => import('@/views/tab2/New.vue'),
+      },
+      {
+        path: 'tab2/location/:id',
+        component: () => import('@/views/tab2/Location.vue'),
+      },
+
+      {
         path: 'tab3',
-        component: () => import('@/views/Tab3Page.vue')
+        component: () => import('@/views/Tab3Page.vue'),
       }
     ]
   }
