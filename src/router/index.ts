@@ -4,7 +4,7 @@ import { RouteRecordRaw } from 'vue-router';
 import storage from '../StorageService';
 import TabsPage from '../views/TabsPage.vue'
 import LoginPage from '../views/LoginPage.vue'
-import { serverURL } from '@/config.ts';
+import { serverURL } from '../config';
 
 axios.defaults.baseURL = serverURL;
 
