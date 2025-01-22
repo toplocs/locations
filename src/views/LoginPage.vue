@@ -19,6 +19,7 @@
             name="username"
             type="text"
             label="Email"
+            labelPlacement="fixed"
             fill="outline"
           ></ion-input>
         </ion-item>
@@ -28,12 +29,17 @@
             name="password"
             type="password"
             label="Passwort"
+            labelPlacement="fixed"
             fill="outline"
           ></ion-input>
         </ion-item>
 
-        <ion-button type="submit" shape="round" expand="full">
-          Login
+        <ion-button
+          class="ion-padding"
+          type="submit"
+          shape="round"
+          expand="full"
+        > Login
         </ion-button>
       </ion-list>
     </form>

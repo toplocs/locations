@@ -1,5 +1,6 @@
 <template>
   <capacitor-google-map
+  	id="map"
     ref="mapRef"
     style="display: inline-block; width: 100%; height: calc(100% - 50px);"
   />
@@ -10,12 +11,16 @@
 	import { ref, watch, inject, shallowRef, onMounted } from 'vue';
 	import { GoogleMap } from '@capacitor/google-maps';
 	import { Geolocation } from '@capacitor/geolocation';
+	import { popoverController } from '@ionic/vue';
+  import LocationPopover from '@/components/map/LocationPopover.vue';
 
+	const emit = defineEmits(['updateLocation'])
 	const mapRef = ref<HTMLElement>();
 	const map = shallowRef<GoogleMap>();
 	const profile = inject('profile');
 	const location = ref(null);
 	const current = ref(null);
+	const places = ref([]);
 
 	const createMap = async () => {
 	  if (!mapRef.value) return
@@ -31,6 +36,21 @@
 	      zoom: 8,
 	    },
 	  });
+
+		await map.value.setOnMarkerClickListener(async (event) => {
+			const { latitude, longitude, markerId } = event;
+			const location = places.value.find(x => x.markerId == markerId);
+			map.value.setCamera({
+				coordinate: {
+					lat: latitude,
+					lng: longitude
+				},
+				zoom: 10,
+				animate: true,
+			});
+			await openPopover(event, location);
+			//await map.value.enableClustering()
+		});
 	}
 
 	const getMyLocation = async () => {
@@ -55,13 +75,14 @@
      		lng: lng,
 			}
 	  };
+	  emit('updateLocation', location);
 
 	  return { lat, lng };
 	}
 
 	const updateCurrentLocation = async (lat, lng) => {
 	  try {
-	    const response = await axios.post('/api/location/updateCurrent', {
+	    const response = await axios.post('/api/v2/location/updateCurrent', {
 	    	profileId: profile.value?.id,
 	      lat: lat,
 	      lng: lng,
@@ -109,7 +130,7 @@
 
 	const fetchNearby = async ({ lat, lng }) => {
 		try {
-	    const response = await axios.get(`/api/location/byCoords?lat=${lat};&lng=${lng}`);
+	    const response = await axios.get(`/api/v2/location/byCoords?lat=${lat};&lng=${lng}`);
 
 	    return response.data;
 	  } catch (error) {
@@ -117,19 +138,27 @@
 	  }
 	}
 
+	const openPopover = async (event: Event, location: Location) => {
+		if (location) {
+			const popover = await popoverController.create({
+	      component: LocationPopover,
+	      componentProps: { location: location },
+	      event: event,
+	    });
+	    await popover.present();
+		}
+  }
+
 	watch(location, async () => {
-		const places = await fetchNearby(location.value.coordinate);
-		for (let place of places) {
+		places.value = await fetchNearby(location.value.coordinate);
+		for (let place of places.value) {
 			const markerId = await map.value.addMarker({
 			  coordinate: {
 			    lat: place.latitude,
 			    lng: place.longitude
-			  }
+			  },
 			});
-			//await map.value.enableClustering();
-			await map.value.setOnMarkerClickListener((event) => {
-				console.log(event);
-			});
+			place.markerId = markerId;
 		}
 	});
 

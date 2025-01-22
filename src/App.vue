@@ -7,13 +7,12 @@
 <script setup lang="ts">
 import axios from 'axios';
 import storage from './StorageService';
-import { ref, provide, onMounted } from 'vue';
+import { ref, inject, provide, onMounted } from 'vue';
 import { IonApp, IonRouterOutlet } from '@ionic/vue';
 import { useRouter } from 'vue-router';
 import { Session, User, Profile, Location } from './types';
+import { serverURL } from '@/config.ts';
 
-const serverURL = '//localhost:3000';
-const session = ref<Session | null>(null);
 const user = ref<User | null>(null);
 const profile = ref<Profile | null>(null);
 const location = ref<Location | null>(null);
@@ -30,16 +29,14 @@ const getProfile = async () => {
   }
 }
 
-onMounted(async () => {
-  profile.value = await getProfile();
-});
-
-
-provide('session', session);
 provide('user', user);
 provide('profile', profile);
 provide('location', location);
 provide('storage', storage);
+
+onMounted(async () => {
+  profile.value = await getProfile();
+});
 
 axios.defaults.baseURL = serverURL;
 </script>
