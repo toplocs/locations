@@ -77,9 +77,9 @@
   import { pencil } from 'ionicons/icons';
   import { ref, inject, onMounted, watchEffect } from 'vue';
   import { useRouter } from 'vue-router';
-  import storage from '@/StorageService';
-  import SelectProfile from '@/components/SelectProfile.vue';
-  import LocationDetails from '@/components/LocationDetails.vue';
+  import storage from '../StorageService';
+  import SelectProfile from '../components/SelectProfile.vue';
+  import LocationDetails from '../components/LocationDetails.vue';
 
   const router = useRouter();
   const profile = inject('profile');
