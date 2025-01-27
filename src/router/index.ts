@@ -4,8 +4,8 @@ import { RouteRecordRaw } from 'vue-router';
 import storage from '../StorageService';
 import TabsPage from '../views/TabsPage.vue'
 import LoginPage from '../views/LoginPage.vue'
-import { serverURL } from '@/config.ts';
 
+const serverURL = import.meta.env.VITE_SERVER_URL;
 axios.defaults.baseURL = serverURL;
 
 const routes: Array<RouteRecordRaw> = [

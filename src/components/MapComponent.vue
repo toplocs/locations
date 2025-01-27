@@ -69,6 +69,12 @@
 	    clickable: false,
 	    title: '50km Radius',
 	  }]);
+	  map.value.setCamera({
+			coordinate: {
+				lat: lat,
+				lng: lng,
+			},
+		});
 	  location.value = {
 	  	coordinate: {
 				lat: lat,

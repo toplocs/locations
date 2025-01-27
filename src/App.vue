@@ -11,8 +11,8 @@ import { ref, inject, provide, onMounted } from 'vue';
 import { IonApp, IonRouterOutlet } from '@ionic/vue';
 import { useRouter } from 'vue-router';
 import { Session, User, Profile, Location } from './types';
-import { serverURL } from '@/config.ts';
 
+const serverURL = import.meta.env.VITE_SERVER_URL;
 const user = ref<User | null>(null);
 const profile = ref<Profile | null>(null);
 const location = ref<Location | null>(null);
