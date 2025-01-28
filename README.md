@@ -1,9 +1,10 @@
 # Locations App
 
-Use Case: Find people around you
+Use Case: Find people around your Location
 
-- Location check in, automatically sets "current location" in your profiles, e.g city or region
-- Shows people around you in the same location
+- Location check in, automatically sets your "current location" in your profiles. Uses nearest Location
+- Shows people / friends around you
+- Create new Locations
 - Shows your location history
 
 ## Develop
