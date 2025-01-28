@@ -3,27 +3,21 @@
     <ion-header>
       <ion-toolbar>
         <ion-title>
-          Map
+          {{selection?.title || 'Current location'}}
         </ion-title>
         <ion-button
           fill="outline"
           slot="end"
           :routerLink="
-          `/tabs/tab2/new?lat=${myLocation?.coordinate.lat}&lng=${myLocation?.coordinate.lng}`"
+          `/tabs/tab2/new?lat=${selection?.coordinate.lat}&lng=${selection?.coordinate.lng}&zoom=${selection?.zoom}`"
         > <ion-icon :icon="add" />
         </ion-button>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large">
-            Map
-          </ion-title>
-        </ion-toolbar>
-      </ion-header>
-
-      <MapComponent  @updateLocation="updateMyCoordinate" />
+      <MapComponent 
+        @updateLocation="updateSelection"
+      />
     </ion-content>
   </ion-page>
 </template>
@@ -43,9 +37,9 @@
   import { Geolocation } from '@capacitor/geolocation';
   import MapComponent from '@/components/MapComponent.vue';
 
-  const myLocation = ref(null);
+  const selection = ref(null);
 
-  const updateMyCoordinate = (data: Object) => {
-    myLocation.value = data.value;
+  const updateSelection = (data: object) => {
+    selection.value = data.value;
   }
 </script>
