@@ -8,6 +8,7 @@ echo "📦 Install CocoaPods"
 brew install cocoapods
 brew install node@18
 brew link node@18
+brew install pnpm
 
 # Install dependencies
 # XCode Cloud is literally broken for 2 months now - https://developer.apple.com/forums/thread/738136?answerId=774510022#774510022
