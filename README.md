@@ -20,3 +20,11 @@ Preview on simulator or connected mobil
 ionic cap run [ios | android] -l --external
 ```
 
+## Version Control
+
+We use [jj](https://github.com/jj-vcs/jj) instead of git.
+You can use git aswell, just fyi about the branch names ...
+
+Usefull Intros:
+- https://www.visualjj.com/getting-started
+- https://github.com/jj-vcs/jj/blob/main/docs/github.md
