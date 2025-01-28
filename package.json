@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc && vite build",
+    "validate": "vue-tsc",
+    "build": "vite build",
+    "sync:ios": "ionic cap sync ios",
     "preview": "vite preview",
     "test:e2e": "cypress run",
     "test:unit": "vitest",
