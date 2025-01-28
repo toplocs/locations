@@ -1,5 +1,12 @@
 <template>
   <ion-page>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Login ... or <a href="https://toplocs.com/register" target="_blank">SignUp</a>
+        </ion-title>
+      </ion-toolbar>
+    </ion-header>
+
     <form
       ref="form"
       @submit.prevent="onSubmit"
@@ -51,6 +58,9 @@ import axios from 'axios';
 import { ref, inject, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import {
+  IonHeader,
+  IonToolbar,
+  IonTitle,
   IonList,
   IonItem,
   IonListHeader,
@@ -64,7 +74,6 @@ import storage from '../StorageService';
 import { Session, Profile } from '../types';
 
 const router = useRouter();
-const session = inject<{value: Session}>('session');
 const profile = inject<{value: Profile}>('profile');
 const errorMessage = ref('');
 const form = ref<HTMLFormElement | null>(null);
