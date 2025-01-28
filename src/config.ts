@@ -1,1 +1,2 @@
-export const serverURL = 'https://toplocs.com';
+
+export const serverURL = 'http://localhost:3000';
