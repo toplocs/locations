@@ -3,7 +3,6 @@ import { createRouter, createWebHistory } from '@ionic/vue-router';
 import { RouteRecordRaw } from 'vue-router';
 import storage from '../StorageService';
 import TabsPage from '../views/TabsPage.vue'
-import LoginPage from '../views/LoginPage.vue'
 
 const serverURL = import.meta.env.VITE_SERVER_URL;
 axios.defaults.baseURL = serverURL;
