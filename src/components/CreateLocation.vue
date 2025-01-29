@@ -36,7 +36,7 @@
           label="Zoom:"
           label-placement="fixed"
           placeholder="Enter the zoom level"
-          :value="10"
+          :value="coordinate?.zoom"
           :readonly="true"
         />
       </ion-item>

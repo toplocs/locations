@@ -36,5 +36,7 @@ npm-debug.log*
 .env.local
 .env.*.local
 
-tribelike.sublime-workspace
+locations.sublime-project
+
+
 

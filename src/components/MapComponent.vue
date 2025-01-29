@@ -2,7 +2,7 @@
   <capacitor-google-map
   	id="map"
     ref="mapRef"
-    style="display: inline-block; width: 100%; height: calc(100% - 50px);"
+    style="display: inline-block; width: 100%; height: calc(100%);"
   />
 </template>
 
@@ -18,9 +18,11 @@
 	const mapRef = ref<HTMLElement>();
 	const map = shallowRef<GoogleMap>();
 	const profile = inject('profile');
-	const location = ref(null);
+	const selection = ref(null);
 	const current = ref(null);
+	const selected = ref(null);
 	const places = ref([]);
+	const zoom = ref(8);
 
 	const createMap = async () => {
 	  if (!mapRef.value) return
@@ -37,9 +39,23 @@
 	    },
 	  });
 
+		await map.value.setOnCameraIdleListener(async (event) => {
+			zoom.value = event.zoom;
+			places.value = await fetchNearby(event.bounds);
+			for (let place of places.value) {
+				const markerId = await map.value.addMarker({
+				  coordinate: {
+				    lat: place.latitude,
+				    lng: place.longitude
+				  },
+				});
+				place.markerId = markerId;
+			}
+		});
+
 		await map.value.setOnMarkerClickListener(async (event) => {
 			const { latitude, longitude, markerId } = event;
-			const location = places.value.find(x => x.markerId == markerId);
+			const place = places.value.find(x => x.markerId == markerId);
 			map.value.setCamera({
 				coordinate: {
 					lat: latitude,
@@ -48,8 +64,39 @@
 				zoom: 10,
 				animate: true,
 			});
-			await openPopover(event, location);
+			selection.value = {
+		  	title: place.title,
+		  	coordinate: {
+					lat: latitude,
+					lng: longitude
+				}
+		  };
+		  emit('updateLocation', selection);
+			await openPopover(event, place);
 			//await map.value.enableClustering()
+		});
+
+		await map.value.setOnMapClickListener(async (event) => {
+			const { latitude, longitude } = event;
+			if (selected.value) {
+				await map.value.removeMarker(selected.value);
+			}
+			selected.value = await map.value.addMarker({
+			  coordinate: {
+			    lat: latitude,
+			    lng: longitude
+			  },
+			  tintColor: { r: 0, g: 0, b: 255, a: 1 },
+			});
+			selection.value = {
+		  	title: 'New location',
+		  	zoom: zoom.value,
+		  	coordinate: {
+					lat: latitude,
+			    lng: longitude
+				}
+		  };
+		  emit('updateLocation', selection);
 		});
 	}
 
@@ -58,30 +105,12 @@
 		const coordinates = await Geolocation.getCurrentPosition();
 		const lat = coordinates.coords.latitude;
   	const lng = coordinates.coords.longitude;
-    await map.value.addCircles([{
-	    center: { lat, lng },
-	    radius: 50000,
-	    fillColor: 'rgba(0, 0, 255)',
-	    strokeColor: '#0000FF',
-	    strokeWeight: 2,
-	    fillOpacity: 0.1,
-	    geodesic: true,
-	    clickable: false,
-	    title: '50km Radius',
-	  }]);
 	  map.value.setCamera({
 			coordinate: {
 				lat: lat,
 				lng: lng,
 			},
 		});
-	  location.value = {
-	  	coordinate: {
-				lat: lat,
-     		lng: lng,
-			}
-	  };
-	  emit('updateLocation', location);
 
 	  return { lat, lng };
 	}
@@ -134,9 +163,14 @@
 	  return closestLocation;
 	};*/
 
-	const fetchNearby = async ({ lat, lng }) => {
+	const fetchNearby = async ({ northeast, southwest }) => {
 		try {
-	    const response = await axios.get(`/api/v2/location/byCoords?lat=${lat};&lng=${lng}`);
+	    const response = await axios.get(`/api/v2/location/byBounds`, {
+	    	params: {
+	        northeast: JSON.stringify(northeast), 
+	        southwest: JSON.stringify(southwest),
+	      }
+	    });
 
 	    return response.data;
 	  } catch (error) {
@@ -154,19 +188,6 @@
 	    await popover.present();
 		}
   }
-
-	watch(location, async () => {
-		places.value = await fetchNearby(location.value.coordinate);
-		for (let place of places.value) {
-			const markerId = await map.value.addMarker({
-			  coordinate: {
-			    lat: place.latitude,
-			    lng: place.longitude
-			  },
-			});
-			place.markerId = markerId;
-		}
-	});
 
 	watch(current, async () => {
 		await map.value.addMarker({
