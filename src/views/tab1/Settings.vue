@@ -35,5 +35,4 @@
   import ProfileSettings from '@/components/ProfileSettings.vue';
 
   const route = useRoute();
-
 </script>
