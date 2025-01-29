@@ -9,6 +9,13 @@ Use Case: Find people around your Location
 
 ## Develop
 
+Use `pnpm` in favor of `npm`.
+
+```
+pnpm install
+pnpm dev
+```
+
 Ionic Capacitor Setup for web, ios, android.
 
 ```
