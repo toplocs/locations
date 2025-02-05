@@ -9,6 +9,7 @@ import axios from 'axios';
 import storage from './StorageService';
 import { ref, inject, provide, onMounted } from 'vue';
 import { IonApp, IonRouterOutlet } from '@ionic/vue';
+import { Geolocation } from '@capacitor/geolocation';
 import { User, Profile, Location } from './types';
 
 const serverURL = import.meta.env.VITE_SERVER_URL;

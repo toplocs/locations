@@ -10,7 +10,6 @@
 	import axios from 'axios';
 	import { ref, watch, inject, shallowRef, onMounted } from 'vue';
 	import { GoogleMap } from '@capacitor/google-maps';
-	import { Geolocation } from '@capacitor/geolocation';
 	import { popoverController } from '@ionic/vue';
   import LocationPopover from '@/components/map/LocationPopover.vue';
 
@@ -102,17 +101,17 @@
 
 	const getMyLocation = async () => {
 		map.value.enableCurrentLocation(true);
-		const coordinates = await Geolocation.getCurrentPosition();
-		const lat = coordinates.coords.latitude;
-  	const lng = coordinates.coords.longitude;
 	  map.value.setCamera({
 			coordinate: {
-				lat: lat,
-				lng: lng,
+				lat: location.value?.latitude,
+				lng: location.value?.longitude,
 			},
 		});
 
-	  return { lat, lng };
+	  return {
+	  	lat: location.value?.latitude,
+	  	lng: location.value?.longitude,
+	  };
 	}
 
 	const updateCurrentLocation = async (lat, lng) => {

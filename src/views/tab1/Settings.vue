@@ -17,6 +17,13 @@
       </ion-header>
 
       <ProfileSettings />
+
+      <ion-button
+        @click="logout"
+        color="danger"
+        class="ion-padding"
+      > Logout
+      </ion-button>
     </ion-content>
   </ion-page>
 </template>
@@ -28,11 +35,27 @@
     IonHeader,
     IonToolbar,
     IonTitle,
-    IonContent
+    IonContent,
+    IonButton
   } from '@ionic/vue';
-  import { ref, computed } from 'vue';
-  import { useRoute } from 'vue-router';
+  import { ref, inject } from 'vue';
+  import { useRouter } from 'vue-router';
+  import storage from '@/StorageService';
   import ProfileSettings from '@/components/ProfileSettings.vue';
 
-  const route = useRoute();
+  const router = useRouter();
+  const session = inject('session');
+  const profile = inject('profile');
+
+  const logout = async () => {
+    try {
+      if (session) session.value = null;
+      if (profile) profile.value = null;
+      axios.defaults.headers.common['Authorization'] = null;
+      await storage.remove('authHeader');
+      router.push('/login');
+    } catch (error) {
+      console.error(error);
+    }
+  }
 </script>
