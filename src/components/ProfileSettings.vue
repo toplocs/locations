@@ -66,9 +66,7 @@
     IonButton,
   } from '@ionic/vue';
   import { ref, inject, onMounted } from 'vue';
-  import { useRoute } from 'vue-router';
   
-  const route = useRoute();
   const profile = inject('profile');
   const errorMessage = ref('');
   const successMessage = ref('');
@@ -102,7 +100,7 @@
   }
 
   onMounted(async () => {
-    profile.value = await fetchProfile(route.params.id);
+    profile.value = await fetchProfile(profile.value.id);
   });
 
 </script>

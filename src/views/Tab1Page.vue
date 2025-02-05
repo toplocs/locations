@@ -46,14 +46,6 @@
         :locationData="locationData"
         :status="location.key"
       />
-
-      <ion-button
-        @click="logout"
-        shape="round"
-        expand="full"
-        color="danger"
-      > Logout
-      </ion-button>
     </ion-content>
   </ion-page>
 </template>
@@ -77,7 +69,6 @@
   import { pencil } from 'ionicons/icons';
   import { ref, inject, onMounted, watchEffect } from 'vue';
   import { useRouter } from 'vue-router';
-  import storage from '../StorageService';
   import SelectProfile from '../components/SelectProfile.vue';
   import LocationDetails from '../components/LocationDetails.vue';
 
@@ -93,18 +84,6 @@
       const response = await axios.get(`/api/profile`);
 
       return response.data;
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  const logout = async () => {
-    try {
-      //if (session) session.value = null;
-      axios.defaults.headers.common['Authorization'] = null;
-      profile.value = null;
-      await storage.remove('authHeader');
-      router.push('/login');
     } catch (error) {
       console.error(error);
     }
@@ -140,11 +119,12 @@
     if (profile.value) {
       locations.value = await fetchProfileLocations(profile.value.id);
       location.value = locations.value.find(x => x.key == 'current');
-      await fetchLocation(location.value);
+      if (location.value) await fetchLocation(location.value);
     }
   });
 
   onMounted(async () => {
     profiles.value = await fetchProfiles();
+    if (!profile.value) profile.value = profiles.value[0];
   });
 </script>
