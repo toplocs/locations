@@ -28,6 +28,14 @@ const getProfile = async () => {
   }
 }
 
+const getLocation = async () => {
+  const coordinates = await Geolocation.getCurrentPosition();
+  const lat = coordinates.coords.latitude;
+  const lng = coordinates.coords.longitude;
+
+  return { latidude: lat, longitude: lng };
+}
+
 provide('user', user);
 provide('profile', profile);
 provide('location', location);
@@ -35,6 +43,8 @@ provide('storage', storage);
 
 onMounted(async () => {
   profile.value = await getProfile();
+  location.value = await getLocation();
+  console.log(location.value);
 });
 
 axios.defaults.baseURL = serverURL;
