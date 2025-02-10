@@ -9,7 +9,7 @@
       </ion-breadcrumbs>
 
       <ion-card-title>
-        {{ location.title }} (Café)
+        {{ location.title }}
         <ion-chip color="success">
           {{ status }}
         </ion-chip>
@@ -73,7 +73,8 @@
 </template>
 
 <script setup lang="ts">
-  import { computed } from 'vue';
+  import axios from 'axios';
+  import { ref, computed, watchEffect } from 'vue';
   import {
     IonCard,
     IonCardContent,
@@ -97,14 +98,28 @@
     locationData: ProfileLocation[];
     status: string;
   }>();
+  const locationProfiles = ref<ProfileLocation>([]);
   const current = computed(() => (
-    props.locationData?.filter(x => x.key == 'current')
+    locationProfiles.value?.filter(x => x.key == 'current')
   ));
   const favorite = computed(() => (
-    props.locationData?.filter(x => x.key == 'favorite')
+    locationProfiles.value?.filter(x => x.key == 'favorite')
   ));
   const past = computed(() => (
-    props.locationData?.filter(x => x.key == 'past')
+    locationProfiles.value?.filter(x => x.key == 'past')
   ));
 
+  const findLocationProfiles = async (id: string) => {
+    try {
+      const response = await axios.get(`/api/v2/location/profiles/${id}`);
+
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  watchEffect(async () => {
+    locationProfiles.value = await findLocationProfiles(props.location.id);
+  });
 </script>

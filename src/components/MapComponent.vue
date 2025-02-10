@@ -8,7 +8,7 @@
 
 <script setup lang="ts">
 	import axios from 'axios';
-	import { ref, watch, inject, shallowRef, onMounted } from 'vue';
+	import { ref, inject, shallowRef, onMounted, watchEffect } from 'vue';
 	import { GoogleMap } from '@capacitor/google-maps';
 	import { popoverController } from '@ionic/vue';
   import LocationPopover from '@/components/map/LocationPopover.vue';
@@ -17,8 +17,9 @@
 	const mapRef = ref<HTMLElement>();
 	const map = shallowRef<GoogleMap>();
 	const profile = inject('profile');
+	const location = inject('location');
+	const current = inject('current');
 	const selection = ref(null);
-	const current = ref(null);
 	const selected = ref(null);
 	const places = ref([]);
 	const zoom = ref(8);
@@ -55,23 +56,25 @@
 		await map.value.setOnMarkerClickListener(async (event) => {
 			const { latitude, longitude, markerId } = event;
 			const place = places.value.find(x => x.markerId == markerId);
-			map.value.setCamera({
-				coordinate: {
-					lat: latitude,
-					lng: longitude
-				},
-				zoom: 10,
-				animate: true,
-			});
-			selection.value = {
-		  	title: place.title,
-		  	coordinate: {
-					lat: latitude,
-					lng: longitude
-				}
-		  };
-		  emit('updateLocation', selection);
-			await openPopover(event, place);
+			if (place) {
+				map.value.setCamera({
+					coordinate: {
+						lat: latitude,
+						lng: longitude
+					},
+					zoom: place.value?.zoom || 8,
+					animate: true,
+				});
+				selection.value = {
+			  	title: place.title,
+			  	coordinate: {
+						lat: latitude,
+						lng: longitude
+					}
+			  };
+			  emit('updateLocation', selection);
+				await openPopover(event, place);
+			}
 			//await map.value.enableClustering()
 		});
 
@@ -100,33 +103,15 @@
 	}
 
 	const getMyLocation = async () => {
-		map.value.enableCurrentLocation(true);
-	  map.value.setCamera({
-			coordinate: {
-				lat: location.value?.latitude,
-				lng: location.value?.longitude,
-			},
-		});
-
-	  return {
-	  	lat: location.value?.latitude,
-	  	lng: location.value?.longitude,
-	  };
-	}
-
-	const updateCurrentLocation = async (lat, lng) => {
-	  try {
-	    const response = await axios.post('/api/v2/location/updateCurrent', {
-	    	profileId: profile.value?.id,
-	      lat: lat,
-	      lng: lng,
-	    });
-
-	    return response.data;
-	  } catch (error) {
-	    console.error(error);
-	    return { error: error.message };
-	  }
+		if (location.value) {
+			map.value.enableCurrentLocation(true);
+		  map.value.setCamera({
+				coordinate: {
+					lat: location.value.latitude,
+					lng: location.value.longitude,
+				},
+			});
+		}
 	}
 
 	/*const findClosestLocation = (latitude, longitude, locations) => {
@@ -188,24 +173,22 @@
 		}
   }
 
-	watch(current, async () => {
-		await map.value.addMarker({
-		  coordinate: {
-		    lat: current.value.latitude,
-		    lng: current.value.longitude
-		  },
-		  title: 'Current Location',
-		  iconUrl: '/icons/beachflag.png',
-		  iconOrigin: { x: 1, y: 1 },
-  		iconAnchor: { x: 0, y: 35 },
-		  tintColor: { r: 0, g: 0, b: 255, a: 1 }, //only on mobile
-		  zIndex: 9,
-		});
+	watchEffect(async () => {
+		if (map.value) {
+			await getMyLocation();
+			await map.value.addMarker({
+			  coordinate: {
+			    lat: current.value.latitude,
+			    lng: current.value.longitude
+			  },
+			  title: 'Current Location',
+			  tintColor: { r: 0, g: 255, b: 0, a: 1 }, //only on mobile
+			  zIndex: 9,
+			});
+		}
 	});
 
 	onMounted(async () => {
-		await createMap();
-		const { lat, lng } = await getMyLocation();
-		current.value = await updateCurrentLocation(lat, lng);
+		await createMap();	
 	});
 </script>

@@ -16,6 +16,7 @@ const serverURL = import.meta.env.VITE_SERVER_URL;
 const user = ref<User | null>(null);
 const profile = ref<Profile | null>(null);
 const location = ref<Location | null>(null);
+const current = ref<Location | null>(null);
 
 const getProfile = async () => {
   try {
@@ -30,22 +31,49 @@ const getProfile = async () => {
 }
 
 const getLocation = async () => {
-  const coordinates = await Geolocation.getCurrentPosition();
-  const lat = coordinates.coords.latitude;
-  const lng = coordinates.coords.longitude;
+  try {
+    const coordinates = await Geolocation.getCurrentPosition();
+    const lat = coordinates.coords.latitude;
+    const lng = coordinates.coords.longitude;
 
-  return { latidude: lat, longitude: lng };
+    return { latitude: lat, longitude: lng };
+  } catch(e) {
+    console.warn(e);
+  }
+  return {
+    latitude: 49.43137974390729,
+    longitude: 6.635152335548151
+  };
+}
+
+const updateCurrentLocation = async (lat, lng) => {
+  try {
+    const response = await axios.post(`/api/v2/location/update/${profile.value?.id}`,
+    {
+      lat: lat,
+      lng: lng
+    });
+
+    return response.data?.Location;
+  } catch (error) {
+    console.error(error);
+    return { error: error.message };
+  }
 }
 
 provide('user', user);
 provide('profile', profile);
 provide('location', location);
+provide('current', current);
 provide('storage', storage);
 
 onMounted(async () => {
   profile.value = await getProfile();
   location.value = await getLocation();
-  console.log(location.value);
+  current.value = await updateCurrentLocation(
+    location.value?.latitude,
+    location.value?.longitude,
+  );
 });
 
 axios.defaults.baseURL = serverURL;

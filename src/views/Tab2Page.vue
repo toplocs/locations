@@ -6,6 +6,7 @@
           {{selection?.title || 'Current location'}}
         </ion-title>
         <ion-button
+          v-if="selection"
           fill="outline"
           slot="end"
           :routerLink="
@@ -33,8 +34,7 @@
     IonIcon,
   } from '@ionic/vue';
   import { add } from 'ionicons/icons';
-  import { ref, onMounted } from 'vue';
-  import { Geolocation } from '@capacitor/geolocation';
+  import { ref, inject } from 'vue';
   import MapComponent from '@/components/MapComponent.vue';
 
   const selection = ref(null);

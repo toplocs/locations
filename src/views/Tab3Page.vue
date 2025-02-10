@@ -14,7 +14,7 @@
         </ion-toolbar>
       </ion-header>
 
-      <LocationList :locations="locations" />
+      <LocationList :locations="profileLocations" />
     </ion-content>
   </ion-page>
 </template>
@@ -38,7 +38,7 @@ import LocationList from '../components/LocationList.vue';
 const router = useRouter();
 const session = inject<{value: Session | null}>('session');
 const profile = inject('profile');
-const locations = ref([]);
+const profileLocations = ref([]);
 
 const fetchProfileLocations = async (id: string) => {
   try {
@@ -52,7 +52,8 @@ const fetchProfileLocations = async (id: string) => {
 
 watchEffect(async () => {
   if (profile.value) {
-    locations.value = await fetchProfileLocations(profile.value.id);
+    profileLocations.value = await fetchProfileLocations(
+      profile.value.id);
   }
 });
 
