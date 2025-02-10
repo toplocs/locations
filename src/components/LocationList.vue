@@ -23,7 +23,7 @@
       <ion-chip
         v-if="x.key == 'past'"
         color="secondary"
-      > {{formatter.format(new Date(x.createdAt))}}
+      > {{ formatter.format(new Date()) }}
       </ion-chip>
     </ion-item>
   </ion-list>
@@ -55,18 +55,18 @@
     month: 'long', 
     day: 'numeric' 
   });
-
-  const profile =  inject('profile');
+  const profile = inject('profile');
+  const current = inject('current');
 
   const updateCurrentLocation = async (lat, lng) => {
     try {
-      const response = await axios.post('/api/location/updateCurrent', {
-        profileId: profile.value?.id,
+      const response = await axios.post(`/api/v2/location/update/${profile.value?.id}`,
+      {
         lat: lat,
-        lng: lng,
+        lng: lng
       });
 
-      return response.data;
+      return response.data?.Location;
     } catch (error) {
       console.error(error);
       return { error: error.message };
@@ -86,7 +86,7 @@
           text: 'Confirm',
           role: 'confirm',
           handler: async () => {
-            await updateCurrentLocation(
+            current.value = await updateCurrentLocation(
               x.Location.latitude,
               x.Location.longitude
             );

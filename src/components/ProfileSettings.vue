@@ -85,8 +85,8 @@
   const onSubmit = async () => {
     try {
       const formData = new FormData(form.value ?? undefined);
-      const response = await axios.put(`/api/profile`, formData);
-      successMessage.value = 'Dein Profil wurde erfolgreich geändert!';
+      const response = await axios.put(`/api/profile/${profile.value.id}`, formData);
+      successMessage.value = 'Your settings have been changed!';
       profile.value = {
         ...profile.value,
         ...response.data,

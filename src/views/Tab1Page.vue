@@ -42,9 +42,8 @@
 
       <LocationDetails
         v-if="location"
-        :location="location.Location"
-        :locationData="locationData"
-        :status="location.key"
+        :location="location"
+        :status="relationKey"
       />
     </ion-content>
   </ion-page>
@@ -52,7 +51,6 @@
 
 <script setup lang="ts">
   import { Profile } from '../types';
-
   import axios from 'axios';
   import {
     IonPage, 
@@ -67,17 +65,18 @@
     IonIcon,
   } from '@ionic/vue';
   import { pencil } from 'ionicons/icons';
-  import { ref, inject, onMounted, watchEffect } from 'vue';
+  import { ref, inject, onMounted, watch } from 'vue';
   import { useRouter } from 'vue-router';
   import SelectProfile from '../components/SelectProfile.vue';
   import LocationDetails from '../components/LocationDetails.vue';
 
   const router = useRouter();
   const profile = inject('profile');
+  const current = inject('current');
   const profiles = ref<Profile[]>([]);
   const location = ref<Location>(null);
-  const locationData = ref<ProfileLocation[]>([]);
   const locations = ref<Location[]>([]);
+  const relationKey = ref<String>('current');
 
   const fetchProfiles = async () => {
     try {
@@ -89,7 +88,7 @@
     }
   }
 
-  const fetchProfileLocations = async (id: string) => {
+  const findProfileLocations = async (id: string) => {
     try {
       const response = await axios.get(`/api/v2/profile/locations/${id}`);
 
@@ -99,32 +98,42 @@
     }
   }
 
-  const fetchLocationProfiles = async (id: string) => {
-    try {
-      const response = await axios.get(`/api/v2/location/${id}/profiles`);
+  
 
-      return response.data;
-    } catch (error) {
-      console.error(error);
-    }
+  const findCurrent = (id: string) => {
+    const data = locations.value.find(x => x.key == 'current');
+
+    return data?.Location;
   }
 
-  const fetchLocation = async (x: ProfileLocation) => {
-    location.value = x;
-    locationData.value = await fetchLocationProfiles(x.Location.id);
-    console.log(locationData.value)
+  const fetchLocation = async (next: ProfileLocation) => {
+    location.value = next.Location;
+    relationKey.value = next.key;
   }
 
+  watch(profile, async() => {
+    locations.value = await findProfileLocations(profile.value.id);
+    location.value = findCurrent();
+  });
+
+  watch(current, async () => {
+    location.value = current.value;
+  });
+
+  /*
   watchEffect(async () => {
+    console.log('Effect')
     if (profile.value) {
-      locations.value = await fetchProfileLocations(profile.value.id);
+      locations.value = await findProfileLocations(profile.value.id);
       location.value = locations.value.find(x => x.key == 'current');
-      if (location.value) await fetchLocation(location.value);
+      await fetchLocation(location.value);
     }
   });
+  */
 
   onMounted(async () => {
     profiles.value = await fetchProfiles();
     if (!profile.value) profile.value = profiles.value[0];
+    if (current.value) location.value = current.value;
   });
 </script>
