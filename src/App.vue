@@ -7,8 +7,8 @@
 <script setup lang="ts">
 import axios from 'axios';
 import storage from './StorageService';
-import { ref, inject, provide, onMounted } from 'vue';
-import { IonApp, IonRouterOutlet } from '@ionic/vue';
+import { ref, inject, provide, watch, onMounted } from 'vue';
+import { IonApp, IonRouterOutlet, alertController } from '@ionic/vue';
 import { Geolocation } from '@capacitor/geolocation';
 import { User, Profile, Location } from './types';
 
@@ -66,6 +66,22 @@ provide('profile', profile);
 provide('location', location);
 provide('current', current);
 provide('storage', storage);
+
+watch(location, async () => {
+  console.log(location.value, 'Location has been updated');
+});
+
+watch(current, async () => {
+  if (current.value) {
+    const alert = await alertController.create({
+      header: `Notification`,
+      message: `Your current location is now ${current.value.title}`,
+      buttons: ['Close'],
+    });
+
+    await alert.present();
+  }
+});
 
 onMounted(async () => {
   profile.value = await getProfile();

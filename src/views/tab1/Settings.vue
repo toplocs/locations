@@ -19,6 +19,12 @@
       <ProfileSettings />
 
       <ion-button
+        @click="update"
+        class="ion-padding"
+      > Update current
+      </ion-button>
+
+      <ion-button
         @click="logout"
         color="danger"
         class="ion-padding"
@@ -46,6 +52,8 @@
   const router = useRouter();
   const session = inject('session');
   const profile = inject('profile');
+  const location = inject('location');
+  const current = inject('current');
 
   const logout = async () => {
     try {
@@ -58,4 +66,28 @@
       console.error(error);
     }
   }
+
+  const update = async () => {
+    if (location.value) {
+      current.value = await updateCurrentLocation(
+        location.value?.latitude,
+        location.value?.longitude,
+      );
+    }
+  }
+
+  const updateCurrentLocation = async (lat, lng) => {
+  try {
+    const response = await axios.post(`/api/v2/location/update/${profile.value?.id}`,
+    {
+      lat: lat,
+      lng: lng
+    });
+
+    return response.data?.Location;
+  } catch (error) {
+    console.error(error);
+    return { error: error.message };
+  }
+}
 </script>
