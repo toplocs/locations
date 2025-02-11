@@ -22,7 +22,7 @@ const getProfile = async () => {
   try {
     const profileId = await storage.get('profile');
     if (!profileId) return null;
-    const response = await axios.get(`/api/profile/byId/${profileId}`);
+    const response = await axios.get(`/api/profile/${profileId}`);
 
     return response.data;
   } catch (e) {
@@ -40,10 +40,6 @@ const getLocation = async () => {
   } catch(e) {
     console.warn(e);
   }
-  return {
-    latitude: 49.43137974390729,
-    longitude: 6.635152335548151
-  };
 }
 
 const updateCurrentLocation = async (lat, lng) => {
@@ -75,7 +71,7 @@ watch(current, async () => {
   if (current.value) {
     const alert = await alertController.create({
       header: `Notification`,
-      message: `Your current location is now ${current.value.title}`,
+      message: `Your current location is now ${current.value?.title}`,
       buttons: ['Close'],
     });
 
@@ -83,13 +79,18 @@ watch(current, async () => {
   }
 });
 
+watch(profile, async () => {
+  if (profile.value) {
+    location.value = await getLocation();
+    current.value = await updateCurrentLocation(
+      location.value?.latitude,
+      location.value?.longitude,
+    );
+  }
+});
+
 onMounted(async () => {
   profile.value = await getProfile();
-  location.value = await getLocation();
-  current.value = await updateCurrentLocation(
-    location.value?.latitude,
-    location.value?.longitude,
-  );
 });
 
 axios.defaults.baseURL = serverURL;

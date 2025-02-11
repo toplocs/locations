@@ -189,6 +189,6 @@
 	});
 
 	onMounted(async () => {
-		await createMap();	
+		await createMap();
 	});
 </script>

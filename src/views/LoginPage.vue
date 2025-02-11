@@ -108,6 +108,18 @@
     return session;
   }
 
+  const getProfile = async () => {
+    try {
+      const profileId = await storage.get('profile');
+      if (!profileId) return null;
+      const response = await axios.get(`/api/profile/${profileId}`);
+
+      return response.data;
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
   const onSubmit = async () => {
     if (!form.value) return;
     errorMessage.value = '';
@@ -117,9 +129,8 @@
         authHeader = JSON.stringify(authHeader);
         axios.defaults.headers.common['Authorization'] = authHeader;
         await storage.set('authHeader', authHeader);
-
         if (session) session.value = await getSession(authHeader);
-        if (profile && profile.value) return router.push(`/tabs`);
+        profile.value = await getProfile();
         
         return router.push(`/tabs`);
       }
@@ -134,7 +145,7 @@
   .logo-container {
     display: flex;
     justify-content: center;
-    margin-top: 40px;
+    margin-top: 100px;
   }
 
   .logo {

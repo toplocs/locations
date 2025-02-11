@@ -98,8 +98,6 @@
     }
   }
 
-  
-
   const findCurrent = (id: string) => {
     const data = locations.value.find(x => x.key == 'current');
 
