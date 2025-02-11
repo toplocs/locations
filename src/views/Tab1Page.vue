@@ -110,8 +110,10 @@
   }
 
   watch(profile, async() => {
-    locations.value = await findProfileLocations(profile.value.id);
-    location.value = findCurrent();
+    if (profile.value) {
+      locations.value = await findProfileLocations(profile.value.id);
+      location.value = findCurrent();
+    }
   });
 
   watch(current, async () => {
