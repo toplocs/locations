@@ -72,16 +72,6 @@
   const successMessage = ref('');
   const form = ref<HTMLFormElement | null>(null);
 
-  const fetchProfile = async (id: string) => {
-    try {
-      const response = await axios.get(`/api/profile/byId/${id}`);
-
-      return response.data;
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
   const onSubmit = async () => {
     try {
       const formData = new FormData(form.value ?? undefined);
@@ -98,9 +88,4 @@
       errorMessage.value = error.response.data;
     }
   }
-
-  onMounted(async () => {
-    profile.value = await fetchProfile(profile.value.id);
-  });
-
 </script>
