@@ -156,8 +156,13 @@
 		}
   }
 
+	watchEffect(async () => {
+		if (map.value) {
+			await getMyLocation();
+		}
+	});
+
 	onMounted(async () => {
 		await createMap();
-		await getMyLocation();
 	});
 </script>
