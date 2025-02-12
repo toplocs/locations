@@ -36,6 +36,13 @@
 	        lng: 0,
 	      },
 	      zoom: 8,
+	      styles: [{
+          featureType: 'poi',
+          stylers: [{ visibility: 'off' }],
+	      }, {
+          featureType: 'transit',
+          stylers: [{ visibility: 'off' }],
+	      }]
 	    },
 	  });
 
@@ -149,22 +156,8 @@
 		}
   }
 
-	watchEffect(async () => {
-		if (map.value) {
-			await getMyLocation();
-			await map.value.addMarker({
-			  coordinate: {
-			    lat: current.value?.latitude,
-			    lng: current.value?.longitude
-			  },
-			  title: 'Current Location',
-			  tintColor: { r: 0, g: 255, b: 0, a: 1 }, //only on mobile
-			  zIndex: 9,
-			});
-		}
-	});
-
 	onMounted(async () => {
 		await createMap();
+		await getMyLocation();
 	});
 </script>
