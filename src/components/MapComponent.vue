@@ -10,8 +10,8 @@
 	import axios from 'axios';
 	import { ref, inject, shallowRef, onMounted, watchEffect } from 'vue';
 	import { GoogleMap } from '@capacitor/google-maps';
-	import { popoverController } from '@ionic/vue';
-  import LocationPopover from '@/components/map/LocationPopover.vue';
+	import { modalController } from '@ionic/vue';
+  import LocationModal from '@/components/map/LocationModal.vue';
 
 	const emit = defineEmits(['updateLocation'])
 	const mapRef = ref<HTMLElement>();
@@ -73,7 +73,7 @@
 					}
 			  };
 			  emit('updateLocation', selection);
-				await openPopover(event, place);
+				await openModal(event, place);
 			}
 			//await map.value.enableClustering()
 		});
@@ -114,39 +114,6 @@
 		}
 	}
 
-	/*const findClosestLocation = (latitude, longitude, locations) => {
-		let closestLocation = null;
-	  let minDistance = Infinity;
-	  const toRadians = (degrees) => degrees * (Math.PI / 180);
-	  const calculateDistance = (lat1, lon1, lat2, lon2) => {
-	    const R = 6371; // Earth's radius in kilometers
-	    const dLat = toRadians(lat2 - lat1);
-	    const dLon = toRadians(lon2 - lon1);
-	    const a =
-	      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-	      Math.cos(toRadians(lat1)) *
-	        Math.cos(toRadians(lat2)) *
-	        Math.sin(dLon / 2) *
-	        Math.sin(dLon / 2);
-	    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-	    return R * c; // Distance in kilometers
-	  };
-	  locations.forEach(x => {
-	    const distance = calculateDistance(
-	      latitude,
-	      longitude,
-	     	x.latitude,
-	      x.longitude
-	    );
-	    if (distance < minDistance) {
-	      minDistance = distance;
-	      closestLocation = x;
-	    }
-	  });
-
-	  return closestLocation;
-	};*/
-
 	const fetchNearby = async ({ northeast, southwest }) => {
 		try {
 	    const response = await axios.get(`/api/v2/location/byBounds`, {
@@ -162,14 +129,23 @@
 	  }
 	}
 
-	const openPopover = async (event: Event, location: Location) => {
+	const openModal = async (event: Event, location: Location) => {
 		if (location) {
-			const popover = await popoverController.create({
-	      component: LocationPopover,
+			const modal = await modalController.create({
+	      component: LocationModal,
 	      componentProps: { location: location },
 	      event: event,
+	      initialBreakpoint: 0.5,
+	      breakpoints: [0, 0.25, 0.5, 0.75, 1],
 	    });
-	    await popover.present();
+
+	    modal.present();
+
+	    const { data, role } = await modal.onWillDismiss();
+
+	    if (role === 'confirm') {
+	      message.value = `Hello, ${data}!`;
+	    }
 		}
   }
 
@@ -178,8 +154,8 @@
 			await getMyLocation();
 			await map.value.addMarker({
 			  coordinate: {
-			    lat: current.value.latitude,
-			    lng: current.value.longitude
+			    lat: current.value?.latitude,
+			    lng: current.value?.longitude
 			  },
 			  title: 'Current Location',
 			  tintColor: { r: 0, g: 255, b: 0, a: 1 }, //only on mobile

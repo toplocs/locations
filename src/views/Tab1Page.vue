@@ -117,7 +117,9 @@
   });
 
   watch(current, async () => {
-    location.value = current.value;
+    if (current.value) {
+      location.value = current.value;
+    }
   });
 
   /*

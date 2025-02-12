@@ -1,91 +1,83 @@
 <template>
-  <ion-card>
-    <ion-card-header>
-      <ion-breadcrumbs>
-        <ion-breadcrumb>Europe</ion-breadcrumb>
-        <ion-breadcrumb>Germany</ion-breadcrumb>
-        <ion-breadcrumb>Saarland</ion-breadcrumb>
-        <ion-breadcrumb>Merzig (City)</ion-breadcrumb>
-      </ion-breadcrumbs>
-
-      <ion-card-title>
-        {{ location.title }}
+  <div class="ion-padding">
+    <ion-breadcrumbs>
+      <ion-breadcrumb>Europe</ion-breadcrumb>
+      <ion-breadcrumb>Germany</ion-breadcrumb>
+      <ion-breadcrumb>Saarland</ion-breadcrumb>
+      <ion-breadcrumb>Merzig (City)</ion-breadcrumb>
+    </ion-breadcrumbs>
+    
+    <ion-grid>
+      <ion-row class="ion-padding-bottom">
+        <h3>{{ location.title }}</h3>
         <ion-chip color="success">
           {{ status }}
         </ion-chip>
-      </ion-card-title>
-    </ion-card-header>
+      </ion-row>
 
-    <ion-card-content>
-      <ion-grid>
-        <div v-if="current?.length">
-          <ion-item-divider>
-            <ion-label>Currently here:</ion-label>
-          </ion-item-divider>
-          <ion-row>
-            <ion-col v-for="x of current" size="auto">
-              <ion-avatar>
-                <img :src="x.Profile?.image" />
-              </ion-avatar>
-              <ion-label style="text-align: center;">
-                {{ x.Profile.username }}
-              </ion-label>
-            </ion-col>
-          </ion-row>
-        </div>
+      <div v-if="current?.length">
+        <ion-item-divider>
+          <ion-label>Currently here:</ion-label>
+        </ion-item-divider>
+        <ion-row>
+          <ion-col v-for="x of current" size="auto">
+            <ion-avatar>
+              <img :src="x.Profile?.image" />
+            </ion-avatar>
+            <ion-label style="text-align: center;">
+              {{ x.Profile.username }}
+            </ion-label>
+          </ion-col>
+        </ion-row>
+      </div>
 
 
-        <div v-if="favorite?.length">
-          <ion-item-divider>
-            <ion-label>Liked by:</ion-label>
-          </ion-item-divider>
-          <ion-row>
-            <ion-col v-for="x of favorite" size="auto">
-              <ion-avatar>
-                <img :src="x.Profile?.image" />
-              </ion-avatar>
-              <ion-label style="text-align: center;">
-                {{ x.Profile.username }}
-              </ion-label>
-            </ion-col>
-          </ion-row>
-        </div>
+      <div v-if="favorite?.length">
+        <ion-item-divider>
+          <ion-label>Liked by:</ion-label>
+        </ion-item-divider>
+        <ion-row>
+          <ion-col v-for="x of favorite" size="auto">
+            <ion-avatar>
+              <img :src="x.Profile?.image" />
+            </ion-avatar>
+            <ion-label style="text-align: center;">
+              {{ x.Profile.username }}
+            </ion-label>
+          </ion-col>
+        </ion-row>
+      </div>
 
-        <div v-if="past?.length">
-          <ion-item-divider>
-            <ion-label>Was here:</ion-label>
-          </ion-item-divider>
-          <ion-row>
-            <ion-col v-for="x of past" size="auto">
-              <ion-avatar>
-                <img :src="x.Profile?.image" />
-              </ion-avatar>
-              <ion-label style="text-align: center;">
-                {{ x.Profile.username }}
-              </ion-label>
-            </ion-col>
-          </ion-row>
-        </div>
+      <div v-if="past?.length">
+        <ion-item-divider>
+          <ion-label>Was here:</ion-label>
+        </ion-item-divider>
+        <ion-row>
+          <ion-col v-for="x of past" size="auto">
+            <ion-avatar>
+              <img :src="x.Profile?.image" />
+            </ion-avatar>
+            <ion-label style="text-align: center;">
+              {{ x.Profile.username }}
+            </ion-label>
+          </ion-col>
+        </ion-row>
+      </div>
 
-      </ion-grid>
-    </ion-card-content>
-  </ion-card>
+    </ion-grid>
+  </div>
 </template>
 
 <script setup lang="ts">
   import axios from 'axios';
   import { ref, computed, watchEffect } from 'vue';
   import {
-    IonCard,
-    IonCardContent,
-    IonCardHeader,
-    IonCardSubtitle,
-    IonCardTitle,
     IonAvatar,
     IonCol,
     IonGrid,
     IonRow,
     IonLabel,
+    IonTitle,
     IonChip,
     IonIcon,
     IonItemDivider,
@@ -95,7 +87,7 @@
   
   const props = defineProps<{
     location: Location;
-    locationData: ProfileLocation[];
+    //locationData: ProfileLocation[];
     status: string;
   }>();
   const locationProfiles = ref<ProfileLocation>([]);
@@ -119,7 +111,20 @@
     }
   }
 
+  const traveseLocationParents = async (id: string) => {
+    const parents = [];
+    try {
+      const response = await axios.get(`/api/v2/location/locations/${id}?key=childOf`);
+
+      console.log(response.data)
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+ 
   watchEffect(async () => {
     locationProfiles.value = await findLocationProfiles(props.location.id);
+    await traveseLocationParents();
   });
 </script>

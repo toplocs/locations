@@ -54,20 +54,9 @@
     }
   }
 
-  const fetchLocationProfiles = async (id: string) => {
-    try {
-      const response = await axios.get(`/api/v2/location/${id}/profiles`);
-
-      return response.data;
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
   watchEffect(async () => {
     if (locationId.value) {
       location.value = await fetchLocation(locationId.value);
-      locationData.value = await fetchLocationProfiles(locationId.value);
     }
   });
 </script>
