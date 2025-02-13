@@ -1,10 +1,11 @@
 <template>
   <div class="ion-padding">
     <ion-breadcrumbs>
-      <ion-breadcrumb>Europe</ion-breadcrumb>
-      <ion-breadcrumb>Germany</ion-breadcrumb>
-      <ion-breadcrumb>Saarland</ion-breadcrumb>
-      <ion-breadcrumb>Merzig (City)</ion-breadcrumb>
+      <ion-breadcrumb
+        v-for="parent of locationParents"
+        @click="() => {}"
+      > {{ parent.title }}
+      </ion-breadcrumb>
     </ion-breadcrumbs>
     
     <ion-grid>
@@ -91,6 +92,7 @@
     status: string;
   }>();
   const locationProfiles = ref<ProfileLocation>([]);
+  const locationParents = ref<Location>([]);
   const current = computed(() => (
     locationProfiles.value?.filter(x => x.key == 'current')
   ));
@@ -112,12 +114,17 @@
   }
 
   const traveseLocationParents = async (id: string) => {
-    const parents = [];
     try {
-      const response = await axios.get(`/api/v2/location/locations/${id}?key=childOf`);
+      const parents = [];
+      let currentId = id;
+      for (let i = 0; i < 3; i++) {
+        const response = await axios.get(`/api/v2/location/locations/${currentId}?key=childOf`);
+        if (!response.data[0]) break;
+        parents.push(response.data[0].OtherLocation);
+        currentId = response.data[0].otherLocationId;
+      }
 
-      console.log(response.data)
-      return response.data;
+      return parents.reverse();
     } catch (error) {
       console.error(error);
     }
@@ -125,6 +132,6 @@
  
   watchEffect(async () => {
     locationProfiles.value = await findLocationProfiles(props.location.id);
-    await traveseLocationParents();
+    locationParents.value = await traveseLocationParents(props.location.id);
   });
 </script>
