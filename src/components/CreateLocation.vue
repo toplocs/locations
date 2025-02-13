@@ -98,6 +98,7 @@
       profile.value.locations = [
         ...profile.value.locations, response.data
       ];
+      form.value.reset();
 
       return router.push(`/tabs/tab2/location/${response.data?.id}`);
     } catch (error) {

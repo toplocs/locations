@@ -77,17 +77,17 @@
   }
 
   const updateCurrentLocation = async (lat, lng) => {
-  try {
-    const response = await axios.post(`/api/v2/location/update/${profile.value?.id}`,
-    {
-      lat: lat,
-      lng: lng
-    });
+    try {
+      const response = await axios.post(`/api/v2/location/update/${profile.value?.id}`,
+      {
+        lat: lat,
+        lng: lng
+      });
 
-    return response.data?.Location;
-  } catch (error) {
-    console.error(error);
-    return { error: error.message };
+      return response.data?.Location;
+    } catch (error) {
+      console.error(error);
+      return { error: error.message };
+    }
   }
-}
 </script>

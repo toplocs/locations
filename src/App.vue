@@ -64,6 +64,9 @@ provide('current', current);
 provide('storage', storage);
 
 watch(location, async () => {
+  if (location.value) {
+    
+  }
   console.log(location.value, 'Location has been updated');
 });
 
