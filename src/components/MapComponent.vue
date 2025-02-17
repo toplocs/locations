@@ -8,7 +8,13 @@
 
 <script setup lang="ts">
 	import axios from 'axios';
-	import { ref, inject, shallowRef, onMounted, watchEffect } from 'vue';
+	import {
+		ref,
+		inject,
+		shallowRef,
+		onMounted,
+		watchEffect
+	} from 'vue';
 	import { GoogleMap } from '@capacitor/google-maps';
 	import { modalController } from '@ionic/vue';
   import LocationModal from '@/components/map/LocationModal.vue';
@@ -29,6 +35,7 @@
 	  map.value = await GoogleMap.create({
 	    id: 'locations-app',
 	    element: mapRef.value,
+	    //forceCreate: true,
 	    apiKey: import.meta.env.VITE_MAPS_API_KEY,
 	    config: {
 	      center: {
@@ -145,21 +152,16 @@
 	      initialBreakpoint: 0.5,
 	      breakpoints: [0, 0.25, 0.5, 0.75, 1],
 	    });
-
 	    modal.present();
 
 	    const { data, role } = await modal.onWillDismiss();
-
-	    if (role === 'confirm') {
-	      message.value = `Hello, ${data}!`;
-	    }
 		}
   }
 
 	watchEffect(async () => {
 		if (map.value) {
 			await getMyLocation();
-		}
+		} 
 	});
 
 	onMounted(async () => {

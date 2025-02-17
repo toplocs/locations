@@ -54,6 +54,7 @@ watchEffect(async () => {
   if (profile.value) {
     profileLocations.value = await fetchProfileLocations(
       profile.value.id);
+    console.log(profileLocations.value)
   }
 });
 
