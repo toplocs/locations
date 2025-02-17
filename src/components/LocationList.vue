@@ -1,31 +1,41 @@
 <template>
   <ion-list>
-    <ion-item v-for="x of locations" :key="x.id">
-      
-      <ion-button
-        size="small"
-        slot="start"
-        :disabled="x.key == 'current'"
-        @click="presentAlert(x)"
-      >
-        <ion-icon aria-hidden="true" :icon="pin" />
-      </ion-button>
+    <span v-for="(x, index) in locations" :key="x.id">
+      <ion-list-header v-if="index === 0 || new Date(x.createdAt).getMonth() !== new Date(locations[index - 1].createdAt).getMonth()">
+        <ion-label>
+          {{ new Date(x.createdAt).toLocaleString(
+            'default', { month: 'long', year: 'numeric'
+          }) }}
+        </ion-label>
+      </ion-list-header>
 
-      <ion-label>
-        <p>{{x.Location.title}}</p>
-      </ion-label>
+      <ion-item>
+        
+        <ion-button
+          size="small"
+          slot="start"
+          :disabled="x.key == 'current'"
+          @click="presentAlert(x)"
+        >
+          <ion-icon aria-hidden="true" :icon="pin" />
+        </ion-button>
 
-      <ion-chip
-        v-if="x.key == 'current'"
-        color="primary"
-      > Currently at
-      </ion-chip>
-      <ion-chip
-        v-if="x.key == 'past'"
-        color="secondary"
-      > {{ formatter.format(new Date()) }}
-      </ion-chip>
-    </ion-item>
+        <ion-label>
+          <p>{{x.Location.title}}</p>
+        </ion-label>
+
+        <ion-chip
+          v-if="x.key == 'current'"
+          color="primary"
+        > Currently at
+        </ion-chip>
+        <ion-chip
+          v-if="x.key == 'past'"
+          color="secondary"
+        > {{ formatter.format(new Date(x.createdAt)) }}
+        </ion-chip>
+      </ion-item>
+    </span>
   </ion-list>
 </template>
 
