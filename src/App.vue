@@ -8,7 +8,7 @@
 import axios from 'axios';
 import storage from './StorageService';
 import { ref, inject, provide, watch, onMounted } from 'vue';
-import { IonApp, IonRouterOutlet, alertController } from '@ionic/vue';
+import { IonApp, IonRouterOutlet, toastController } from '@ionic/vue';
 import { Geolocation } from '@capacitor/geolocation';
 import { User, Profile, Location } from './types';
 
@@ -65,20 +65,19 @@ provide('storage', storage);
 
 watch(location, async () => {
   if (location.value) {
-    
+    console.log(location.value, 'Location has been updated');
   }
-  console.log(location.value, 'Location has been updated');
 });
 
 watch(current, async () => {
   if (current.value) {
-    const alert = await alertController.create({
-      header: `Notification`,
+    const toast = await toastController.create({
       message: `Your current location is now ${current.value?.title}`,
-      buttons: ['Close'],
+      duration: 3000,
+      position: 'top',
     });
 
-    await alert.present();
+    await toast.present();
   }
 });
 
