@@ -93,6 +93,17 @@ watch(profile, async () => {
 
 onMounted(async () => {
   profile.value = await getProfile();
+
+  Geolocation.watchPosition({
+
+  }, async (position) => {
+    if (position) {
+      current.value = await updateCurrentLocation(
+        position.coords.latitude,
+        position.coords.longitude,
+      );
+    }
+  });
 });
 
 axios.defaults.baseURL = serverURL;
