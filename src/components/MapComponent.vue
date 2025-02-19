@@ -17,7 +17,7 @@
 	} from 'vue';
 	import { GoogleMap } from '@capacitor/google-maps';
 	import { modalController } from '@ionic/vue';
-  import LocationModal from '@/components/map/LocationModal.vue';
+  import LocationDetailsModal from '@/components/map/LocationDetailsModal.vue';
 
 	const emit = defineEmits(['updateLocation'])
 	const mapRef = ref<HTMLElement>();
@@ -146,7 +146,7 @@
 	const openModal = async (event: Event, location: Location) => {
 		if (location) {
 			const modal = await modalController.create({
-	      component: LocationModal,
+	      component: LocationDetailsModal,
 	      componentProps: { location: location },
 	      event: event,
 	      initialBreakpoint: 0.5,

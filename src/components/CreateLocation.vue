@@ -70,6 +70,7 @@
 
   const props = defineProps<{
     coordinate: Object;
+    close: Function;
   }>();
   const router = useRouter();
   const profile = inject('profile');
@@ -100,7 +101,7 @@
       ];
       form.value.reset();
 
-      return router.push(`/tabs/tab2/location/${response.data?.id}`);
+      return props.close(response.data);
     } catch (error) {
       console.error(error);
       errorMessage.value = error.response.data;

@@ -14,8 +14,7 @@
         <ion-button
           size="small"
           slot="start"
-          :disabled="x.key == 'current'"
-          @click="presentAlert(x)"
+          disabled
         >
           <ion-icon aria-hidden="true" :icon="pin" />
         </ion-button>
