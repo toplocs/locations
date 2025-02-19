@@ -95,9 +95,9 @@ onMounted(async () => {
   profile.value = await getProfile();
 
   Geolocation.watchPosition({
-
+    //config
   }, async (position) => {
-    if (position) {
+    if (position && profile.value) {
       current.value = await updateCurrentLocation(
         position.coords.latitude,
         position.coords.longitude,

@@ -19,12 +19,6 @@
       <ProfileSettings />
 
       <ion-button
-        @click="update"
-        class="ion-padding"
-      > Update current
-      </ion-button>
-
-      <ion-button
         @click="logout"
         color="danger"
         class="ion-padding"
