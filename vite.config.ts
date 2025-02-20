@@ -24,6 +24,6 @@ export default defineConfig({
     target: 'esnext'
   },
   compilerOptions: {
-    isCustomElement: (tag) => tag.startsWith('capacitor-')
+    isCustomElement: (tag) => tag.startsWith('capacitor-'),
   },
 })

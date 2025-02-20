@@ -6,18 +6,16 @@
           {{selection?.title || 'Current location'}}
         </ion-title>
         <ion-button
-          v-if="selection"
           fill="outline"
           slot="end"
+          :disabled="!selection"
           @click="openModal"
         > <ion-icon :icon="add" />
         </ion-button>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <MapComponent
-        @updateLocation="updateSelection"
-      />
+      <MapComponent />
     </ion-content>
   </ion-page>
 </template>
@@ -33,19 +31,15 @@
     IonIcon,
   } from '@ionic/vue';
   import { add } from 'ionicons/icons';
-  import { ref, inject } from 'vue';
+  import { ref, provide } from 'vue';
   import { modalController } from '@ionic/vue';
   import MapComponent from '@/components/MapComponent.vue';
   import NewLocationModal from '@/components/map/NewLocationModal.vue';
 
   const selection = ref(null);
 
-  const updateSelection = (data: object) => {
-    selection.value = data.value;
-  }
-
   const openModal = async (event: Event) => {
-    if (selection) {
+    if (selection.value) {
       const modal = await modalController.create({
         component: NewLocationModal,
         componentProps: { location: selection.value },
@@ -59,4 +53,6 @@
       if (data) console.log(data, role); //add location to the map component
     }
   }
+
+  provide('selection', selection);
 </script>

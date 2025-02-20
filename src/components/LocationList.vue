@@ -14,7 +14,6 @@
         <ion-button
           size="small"
           slot="start"
-          disabled
         >
           <ion-icon aria-hidden="true" :icon="pin" />
         </ion-button>
