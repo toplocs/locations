@@ -13,19 +13,19 @@
 		inject,
 		shallowRef,
 		onMounted,
+		onUnmounted,
 		watchEffect
 	} from 'vue';
 	import { GoogleMap } from '@capacitor/google-maps';
 	import { modalController } from '@ionic/vue';
   import LocationDetailsModal from '@/components/map/LocationDetailsModal.vue';
 
-	const emit = defineEmits(['updateLocation'])
 	const mapRef = ref<HTMLElement>();
 	const map = shallowRef<GoogleMap>();
 	const profile = inject('profile');
 	const location = inject('location');
 	const current = inject('current');
-	const selection = ref(null);
+	const selection = inject('selection');
 	const selected = ref(null);
 	const places = ref([]);
 	const zoom = ref(8);
@@ -53,7 +53,7 @@
 	    },
 	  });
 
-		await map.value.setOnCameraIdleListener(async (event) => {
+		await map.value?.setOnCameraIdleListener(async (event) => {
 			zoom.value = event.zoom;
 			places.value = await fetchNearby(event.bounds);
 			for (let place of places.value) {
@@ -67,7 +67,7 @@
 			}
 		});
 
-		await map.value.setOnMarkerClickListener(async (event) => {
+		await map.value?.setOnMarkerClickListener(async (event) => {
 			const { latitude, longitude, markerId } = event;
 			const place = places.value.find(x => x.markerId == markerId);
 			if (place) {
@@ -79,20 +79,12 @@
 					zoom: place.value?.zoom || 8,
 					animate: true,
 				});
-				selection.value = {
-			  	title: place.title,
-			  	coordinate: {
-						lat: latitude,
-						lng: longitude
-					}
-			  };
-			  emit('updateLocation', selection);
 				await openModal(event, place);
 			}
 			//await map.value.enableClustering()
 		});
 
-		await map.value.setOnMapClickListener(async (event) => {
+		await map.value?.setOnMapClickListener(async (event) => {
 			const { latitude, longitude } = event;
 			if (selected.value) {
 				await map.value.removeMarker(selected.value);
@@ -104,15 +96,14 @@
 			  },
 			  tintColor: { r: 0, g: 0, b: 255, a: 1 },
 			});
-			selection.value = {
+		  selection.value = {
 		  	title: 'New location',
 		  	zoom: zoom.value,
 		  	coordinate: {
 					lat: latitude,
 			    lng: longitude
 				}
-		  };
-		  emit('updateLocation', selection);
+		  }
 		});
 	}
 
@@ -165,6 +156,12 @@
 	});
 
 	onMounted(async () => {
-		await createMap();
+		if (!map.value) {
+			await createMap();
+		}
 	});
+
+	onUnmounted(async () => {
+		await map.value.destroy();
+	})
 </script>
