@@ -27,8 +27,6 @@
         :locations="locations"
       />
 
-      <br/>
-
       <ion-item>
         <ion-label>
           <ion-chip
@@ -40,11 +38,13 @@
         </ion-label>
       </ion-item>
 
-      <LocationDetails
-        v-if="location"
-        :location="location"
-        :status="relationKey"
-      />
+      <div ref="locationDetails">
+        <LocationDetails
+          v-if="location"
+          :location="location"
+          :status="relationKey"
+        />
+      </div>
     </ion-content>
   </ion-page>
 </template>
@@ -77,6 +77,7 @@
   const location = ref<Location>(null);
   const locations = ref<Location[]>([]);
   const relationKey = ref<String>('current');
+  const locationDetails = ref(null);
 
   const fetchProfiles = async () => {
     try {
@@ -107,6 +108,13 @@
   const fetchLocation = async (next: ProfileLocation) => {
     location.value = next.Location;
     relationKey.value = next.key;
+    console.log('scroll into view')
+
+    if (locationDetails.value) {
+      locationDetails.value.scrollIntoView(
+        { behavior: "smooth" }
+      );
+    }
   }
 
   watch(profile, async() => {
