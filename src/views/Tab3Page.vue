@@ -6,6 +6,13 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
+      <ion-refresher
+        slot="fixed"
+        @ionRefresh="handleRefresh($event)"
+      >
+        <ion-refresher-content />
+      </ion-refresher>
+      
       <ion-header collapse="condense">
         <ion-toolbar>
           <ion-title size="large">
@@ -29,7 +36,9 @@ import {
   IonToolbar,
   IonTitle,
   IonContent,
-  IonButton
+  IonButton,
+  IonRefresher,
+  IonRefresherContent
 } from '@ionic/vue';
 import { ref, inject, watchEffect } from 'vue';
 import { useRouter } from 'vue-router';
@@ -50,11 +59,20 @@ const fetchProfileLocations = async (id: string) => {
   }
 }
 
+const handleRefresh = (e: CustomEvent) => {
+  setTimeout(async () => {
+    if (profile.value) {
+      profileLocations.value = await fetchProfileLocations(
+        profile.value.id);
+    }
+    e.target.complete();
+  }, 2000);
+}
+
 watchEffect(async () => {
   if (profile.value) {
     profileLocations.value = await fetchProfileLocations(
       profile.value.id);
-    console.log(profileLocations.value)
   }
 });
 

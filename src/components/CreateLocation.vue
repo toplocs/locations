@@ -1,9 +1,9 @@
 <template>
-  <ion-list>
-    <form
-      ref="form"
-      @submit.prevent="onSubmit"
-    >
+  <form
+    ref="form"
+    @submit.prevent="onSubmit"
+  >
+    <ion-list>
       <ion-item v-if="errorMessage" class="text-red-500 mt-4">
         {{ errorMessage }}
       </ion-item>
@@ -53,8 +53,8 @@
       <ion-button type="submit" class="ion-padding">
         Submit
       </ion-button>
-    </form>
-  </ion-list>
+    </ion-list>
+  </form>
 </template>
 
 <script setup lang="ts">
@@ -109,3 +109,11 @@
   }
 
 </script>
+
+<style>
+  ion-list,
+  ion-item {
+    --background: transparent !important;
+    background: transparent !important;
+  }
+</style>

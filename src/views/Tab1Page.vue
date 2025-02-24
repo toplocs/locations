@@ -14,6 +14,13 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
+      <ion-refresher
+        slot="fixed"
+        @ionRefresh="handleRefresh($event)"
+      >
+        <ion-refresher-content />
+      </ion-refresher>
+
       <ion-header collapse="condense">
         <ion-toolbar>
           <ion-title size="large">
@@ -27,8 +34,6 @@
         :locations="locations"
       />
 
-      <br/>
-
       <ion-item>
         <ion-label>
           <ion-chip
@@ -40,11 +45,13 @@
         </ion-label>
       </ion-item>
 
-      <LocationDetails
-        v-if="location"
-        :location="location"
-        :status="relationKey"
-      />
+      <div ref="locationDetails">
+        <LocationDetails
+          v-if="location"
+          :location="location"
+          :status="relationKey"
+        />
+      </div>
     </ion-content>
   </ion-page>
 </template>
@@ -63,6 +70,8 @@
     IonLabel,
     IonChip,
     IonIcon,
+    IonRefresher,
+    IonRefresherContent
   } from '@ionic/vue';
   import { pencil } from 'ionicons/icons';
   import { ref, inject, onMounted, watch } from 'vue';
@@ -77,6 +86,7 @@
   const location = ref<Location>(null);
   const locations = ref<Location[]>([]);
   const relationKey = ref<String>('current');
+  const locationDetails = ref(null);
 
   const fetchProfiles = async () => {
     try {
@@ -107,6 +117,24 @@
   const fetchLocation = async (next: ProfileLocation) => {
     location.value = next.Location;
     relationKey.value = next.key;
+    console.log('scroll into view')
+
+    if (locationDetails.value) {
+      locationDetails.value.scrollIntoView(
+        { behavior: "smooth" }
+      );
+    }
+  }
+
+  const handleRefresh = (e: CustomEvent) => {
+    setTimeout(async () => {
+      profiles.value = await fetchProfiles();
+      if (profile.value) {
+        locations.value = await findProfileLocations(profile.value.id);
+        location.value = findCurrent();
+      }
+      e.target.complete();
+    }, 2000);
   }
 
   watch(profile, async() => {
@@ -121,17 +149,6 @@
       location.value = current.value;
     }
   });
-
-  /*
-  watchEffect(async () => {
-    console.log('Effect')
-    if (profile.value) {
-      locations.value = await findProfileLocations(profile.value.id);
-      location.value = locations.value.find(x => x.key == 'current');
-      await fetchLocation(location.value);
-    }
-  });
-  */
 
   onMounted(async () => {
     profiles.value = await fetchProfiles();
