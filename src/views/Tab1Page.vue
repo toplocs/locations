@@ -18,8 +18,8 @@
         slot="fixed"
         @ionRefresh="handleRefresh($event)"
       >
-      <ion-refresher-content />
-    </ion-refresher>
+        <ion-refresher-content />
+      </ion-refresher>
 
       <ion-header collapse="condense">
         <ion-toolbar>
