@@ -14,6 +14,13 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
+      <ion-refresher
+        slot="fixed"
+        @ionRefresh="handleRefresh($event)"
+      >
+      <ion-refresher-content />
+    </ion-refresher>
+
       <ion-header collapse="condense">
         <ion-toolbar>
           <ion-title size="large">
@@ -63,6 +70,8 @@
     IonLabel,
     IonChip,
     IonIcon,
+    IonRefresher,
+    IonRefresherContent
   } from '@ionic/vue';
   import { pencil } from 'ionicons/icons';
   import { ref, inject, onMounted, watch } from 'vue';
@@ -117,6 +126,17 @@
     }
   }
 
+  const handleRefresh = (e: CustomEvent) => {
+    setTimeout(async () => {
+      profiles.value = await fetchProfiles();
+      if (profile.value) {
+        locations.value = await findProfileLocations(profile.value.id);
+        location.value = findCurrent();
+      }
+      e.target.complete();
+    }, 2000);
+  }
+
   watch(profile, async() => {
     if (profile.value) {
       locations.value = await findProfileLocations(profile.value.id);
@@ -129,17 +149,6 @@
       location.value = current.value;
     }
   });
-
-  /*
-  watchEffect(async () => {
-    console.log('Effect')
-    if (profile.value) {
-      locations.value = await findProfileLocations(profile.value.id);
-      location.value = locations.value.find(x => x.key == 'current');
-      await fetchLocation(location.value);
-    }
-  });
-  */
 
   onMounted(async () => {
     profiles.value = await fetchProfiles();
