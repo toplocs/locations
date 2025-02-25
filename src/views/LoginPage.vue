@@ -68,72 +68,27 @@
     IonPage,
     IonButton,
     IonImage,
-    IonTitle
+    IonTitle,
+    IonImg
   } from '@ionic/vue';
-  import storage from '../StorageService';
   import { Session, Profile } from '../types';
+  import { reloadSession} from '@/services/sessionService';
+  import { useUser } from '@/composables/user';
 
+  const { login } = useUser();
   const router = useRouter();
-  const session = inject<{value: Session}>('session');
-  const profile = inject<{value: Profile}>('profile');
   const errorMessage = ref('');
   const form = ref<HTMLFormElement | null>(null);
-
-  const sendLogin = async () => {
-    try {
-      const formData = new FormData(form.value ?? undefined);
-      const response = await axios.post(`/api/auth/login`, formData);
-
-      return response.data;
-    } catch (error) {
-      errorMessage.value = (error as any).response?.data || 'An error occurred';
-      console.error(error);
-    }
-  }
-
-  const getSession = async (authHeader: string) => {
-    let session: Session | null = null;
-    try {
-      const response = await axios.get(`/api/auth`, {
-        headers: {
-          'Authorization': authHeader,
-          'Content-Type': 'application/json'
-        }
-      });
-      session = response.data.session;
-    } catch (e) {
-      console.error(e);
-    }
-    if (!session) throw new Error('Invalid session');  
-    return session;
-  }
-
-  const getProfile = async () => {
-    try {
-      const profileId = await storage.get('profile');
-      if (!profileId) return null;
-      const response = await axios.get(`/api/profile/${profileId}`);
-
-      return response.data;
-    } catch (e) {
-      console.error(e);
-    }
-  }
 
   const onSubmit = async () => {
     if (!form.value) return;
     errorMessage.value = '';
     try {
-      let authHeader = await sendLogin();
-      if (authHeader) {
-        authHeader = JSON.stringify(authHeader);
-        axios.defaults.headers.common['Authorization'] = authHeader;
-        await storage.set('authHeader', authHeader);
-        if (session) session.value = await getSession(authHeader);
-        profile.value = await getProfile();
-        
-        return router.push(`/tabs`);
-      }
+      const formData = new FormData(form.value ?? undefined);
+      const response = await login(formData);
+      await reloadSession();
+
+      if (response) router.push(`/tabs`);
     } catch (error) {
       errorMessage.value = (error as any).response?.data || 'An error occurred';
       console.error(error);

@@ -43,11 +43,10 @@ import {
 import { ref, inject, watchEffect } from 'vue';
 import { useRouter } from 'vue-router';
 import LocationList from '../components/LocationList.vue';
+  import { useProfile } from '@/composables/profile';
 
-const router = useRouter();
-const session = inject<{value: Session | null}>('session');
-const profile = inject('profile');
-const profileLocations = ref([]);
+const { profile } = useProfile();
+const profileLocations = ref([]); //maybe to composable
 
 const fetchProfileLocations = async (id: string) => {
   try {

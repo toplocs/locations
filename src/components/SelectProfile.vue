@@ -32,21 +32,18 @@
     IonSelect,
     IonSelectOption
   } from '@ionic/vue';
-  import { inject } from 'vue';
-  import storage from '../StorageService';
   import { Profile } from '../toplocs';
+  import { useProfile } from '@/composables/profile';
 
   const props = defineProps<{
     profiles: Profile[];
-    locations: Location[];
   }>();
-
-  const profile = inject('profile');
+  const emit = defineEmits(['selectProfile']);
+  const { profile } = useProfile();
 
   const selectProfile = async (e: CustomEvent) => {
     const selected = props.profiles.find(x => x.id == e.detail.value);
-    profile.value = selected;
-    await storage.set('profile', selected.id);
+    emit('selectProfile', selected);
   }
 
 

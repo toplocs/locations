@@ -31,7 +31,7 @@
 
       <SelectProfile
         :profiles="profiles"
-        :locations="locations"
+        @selectProfile="handleProfileSelect"
       />
 
       <ion-item>
@@ -74,23 +74,29 @@
     IonRefresherContent
   } from '@ionic/vue';
   import { pencil } from 'ionicons/icons';
-  import { ref, inject, onMounted, watch } from 'vue';
-  import { useRouter } from 'vue-router';
+  import { ref, inject, watch, onMounted, watchEffect } from 'vue';
+  import { useRoute } from 'vue-router';
   import SelectProfile from '../components/SelectProfile.vue';
   import LocationDetails from '../components/LocationDetails.vue';
+  import { useUser } from '@/composables/user';
+  import { useProfile } from '@/composables/profile';
 
-  const router = useRouter();
-  const profile = inject('profile');
-  const current = inject('current');
+  const route = useRoute();
+  const { user } = useUser();
+  const { profile, getProfile, setProfile } = useProfile();
   const profiles = ref<Profile[]>([]);
   const location = ref<Location>(null);
   const locations = ref<Location[]>([]);
   const relationKey = ref<String>('current');
   const locationDetails = ref(null);
 
-  const fetchProfiles = async () => {
+
+  const getProfiles = async () => {
     try {
       const response = await axios.get(`/api/profile`);
+      if (!profile.value && response.data) {
+        await setProfile(response.data[0]);
+      }
 
       return response.data;
     } catch (error) {
@@ -114,18 +120,6 @@
     return data?.Location;
   }
 
-  const fetchLocation = async (next: ProfileLocation) => {
-    location.value = next.Location;
-    relationKey.value = next.key;
-    console.log('scroll into view')
-
-    if (locationDetails.value) {
-      locationDetails.value.scrollIntoView(
-        { behavior: "smooth" }
-      );
-    }
-  }
-
   const handleRefresh = (e: CustomEvent) => {
     setTimeout(async () => {
       profiles.value = await fetchProfiles();
@@ -137,6 +131,21 @@
     }, 2000);
   }
 
+  const handleProfileSelect = async (profile: Profile) => {
+    await setProfile(profile)
+  }
+
+  const fetchLocation = async (next: ProfileLocation) => {
+    location.value = next.Location;
+    relationKey.value = next.key;
+
+    if (locationDetails.value) {
+      locationDetails.value.scrollIntoView(
+        { behavior: "smooth" }
+      );
+    }
+  }
+
   watch(profile, async() => {
     if (profile.value) {
       locations.value = await findProfileLocations(profile.value.id);
@@ -144,15 +153,12 @@
     }
   });
 
-  watch(current, async () => {
-    if (current.value) {
-      location.value = current.value;
-    }
+
+  watch(() => route.fullPath, async () => {
+    profiles.value = await getProfiles();
   });
 
   onMounted(async () => {
-    profiles.value = await fetchProfiles();
-    if (!profile.value) profile.value = profiles.value[0];
-    if (current.value) location.value = current.value;
+    profiles.value = await getProfiles();
   });
 </script>

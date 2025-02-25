@@ -15,12 +15,13 @@
   },
   "dependencies": {
     "@capacitor/app": "6.0.2",
-    "@capacitor/core": "6.2.0",
+    "@capacitor/core": "^7.0.1",
     "@capacitor/geolocation": "^6.1.0",
     "@capacitor/google-maps": "^6.0.1",
     "@capacitor/haptics": "6.0.2",
     "@capacitor/ios": "6.2.0",
     "@capacitor/keyboard": "6.0.3",
+    "@capacitor/preferences": "^7.0.0",
     "@capacitor/status-bar": "6.0.2",
     "@ionic/storage": "^4.0.0",
     "@ionic/vue": "^8.4.1",
@@ -32,7 +33,7 @@
   },
   "devDependencies": {
     "@capacitor/assets": "^3.0.5",
-    "@capacitor/cli": "6.2.0",
+    "@capacitor/cli": "^7.0.1",
     "@types/axios": "^0.14.4",
     "@types/google.maps": "^3.58.1",
     "@types/node": "^22.10.9",

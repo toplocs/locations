@@ -23,6 +23,53 @@
 </template>
 
 <script setup lang="ts">
-import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet } from '@ionic/vue';
-import { people, map, book } from 'ionicons/icons';
+  import { watch, onMounted } from 'vue';
+  import {
+    IonTabBar,
+    IonTabButton,
+    IonTabs,
+    IonLabel,
+    IonIcon,
+    IonPage,
+    IonRouterOutlet,
+    toastController
+  } from '@ionic/vue';
+  import { people, map, book } from 'ionicons/icons';
+  import { Geolocation } from '@capacitor/geolocation';
+  import { useUser } from '@/composables/user';
+  import { useProfile } from '@/composables/profile';
+  import { useLocation } from '@/composables/location';
+
+  const { user, getUser } = useUser();
+  const { profile, getProfile, current } = useProfile();
+  const { location, getLocation, updateCurrentLocation } = useLocation();
+
+
+  watch(() => current, async () => {
+    if (current.value) {
+      const toast = await toastController.create({
+        message: `Your current location is now ${current.value?.title}`,
+        duration: 3000,
+        position: 'top',
+      });
+
+      await toast.present();
+    }
+  });
+
+  onMounted(async () => {
+    profile.value = await getProfile();
+    location.value = await getLocation();
+
+    Geolocation.watchPosition({
+      //config
+    }, async (position) => {
+      if (position && profile.value) {
+        current.value = await updateCurrentLocation(
+          position.coords.latitude,
+          position.coords.longitude,
+        );
+      }
+    });
+  });
 </script>
