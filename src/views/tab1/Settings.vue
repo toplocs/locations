@@ -16,10 +16,10 @@
         </ion-toolbar>
       </ion-header>
 
-      <ProfileSettings />
+      <ProfileSettings :profile="profile" />
 
       <ion-button
-        @click="logout"
+        @click="handleLogout"
         color="danger"
         class="ion-padding"
       > Logout
@@ -40,48 +40,24 @@
   } from '@ionic/vue';
   import { ref, inject } from 'vue';
   import { useRouter } from 'vue-router';
-  import storage from '@/StorageService';
+  import storage from '@/services/storageService';
   import ProfileSettings from '@/components/ProfileSettings.vue';
+  import { useUser } from '@/composables/user';
+  import { useProfile } from '@/composables/profile';
+
+  const { logout } = useUser();
+  const { profile, setProfile } = useProfile();
 
   const router = useRouter();
-  const session = inject('session');
-  const profile = inject('profile');
-  const location = inject('location');
-  const current = inject('current');
 
-  const logout = async () => {
+  const handleLogout = async () => {
     try {
-      if (session) session.value = null;
-      if (profile) profile.value = null;
-      axios.defaults.headers.common['Authorization'] = null;
-      await storage.remove('authHeader');
+      await logout();
+      await setProfile(null);
+
       router.push('/login');
     } catch (error) {
       console.error(error);
-    }
-  }
-
-  const update = async () => {
-    if (location.value) {
-      current.value = await updateCurrentLocation(
-        location.value?.latitude,
-        location.value?.longitude,
-      );
-    }
-  }
-
-  const updateCurrentLocation = async (lat, lng) => {
-    try {
-      const response = await axios.post(`/api/v2/location/update/${profile.value?.id}`,
-      {
-        lat: lat,
-        lng: lng
-      });
-
-      return response.data?.Location;
-    } catch (error) {
-      console.error(error);
-      return { error: error.message };
     }
   }
 </script>

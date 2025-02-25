@@ -67,7 +67,9 @@
   } from '@ionic/vue';
   import { ref, inject, onMounted } from 'vue';
   
-  const profile = inject('profile');
+  const props = defineProps<{
+    profile: Profile;
+  }>();
   const errorMessage = ref('');
   const successMessage = ref('');
   const form = ref<HTMLFormElement | null>(null);

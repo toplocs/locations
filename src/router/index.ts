@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import { RouteRecordRaw } from 'vue-router';
-import storage from '../StorageService';
-import TabsPage from '../views/TabsPage.vue'
+import TabsPage from '../views/TabsPage.vue';
+import { session, reloadSession } from '@/services/sessionService';
 
 const serverURL = import.meta.env.VITE_SERVER_URL;
 axios.defaults.baseURL = serverURL;
@@ -60,21 +60,8 @@ const router = createRouter({
   routes
 });
 
-const getSession = async (authHeader: string) => {
-  const response = await axios.get(`/api/auth`, {
-      headers: {
-        'Authorization': authHeader,
-        'Content-Type': 'application/json'
-      }
-    });
-
-  return response.data;
-}
-
-//middleware
 router.beforeEach(async (to, from, next) => {
-  const authHeader = await storage.get('authHeader');
-  const { session } = await getSession(authHeader);
+  await reloadSession();
 
   if (to.path === '/login' && session) {
     next('/tabs/tab1');

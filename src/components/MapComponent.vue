@@ -11,21 +11,22 @@
 	import {
 		ref,
 		inject,
+		watch,
 		shallowRef,
 		onMounted,
 		onUnmounted,
-		watchEffect
 	} from 'vue';
 	import { GoogleMap } from '@capacitor/google-maps';
 	import { modalController } from '@ionic/vue';
   import LocationDetailsModal from '@/components/map/LocationDetailsModal.vue';
+  import { useProfile } from '@/composables/profile';
+  import { useLocation } from '@/composables/location';
 
+  const { profile } = useProfile();
+  const { location, current } = useLocation();
+  const selection = inject('selection');
 	const mapRef = ref<HTMLElement>();
 	const map = shallowRef<GoogleMap>();
-	const profile = inject('profile');
-	const location = inject('location');
-	const current = inject('current');
-	const selection = inject('selection');
 	const selected = ref(null);
 	const places = ref([]);
 	const zoom = ref(8);
@@ -149,7 +150,8 @@
 		}
   }
 
-	watchEffect(async () => {
+	watch(location, async () => {
+		console.log(location.value)
 		if (map.value) {
 			await getMyLocation();
 		} 
