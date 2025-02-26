@@ -18,8 +18,8 @@ importers:
         specifier: ^7.1.1
         version: 7.1.1(@capacitor/core@7.0.1)
       '@capacitor/google-maps':
-        specifier: ^6.0.1
-        version: 6.0.1(@capacitor/core@7.0.1)
+        specifier: ^7.0.1
+        version: 7.0.1(@capacitor/core@7.0.1)
       '@capacitor/haptics':
         specifier: ^7.0.0
         version: 7.0.0(@capacitor/core@7.0.1)
@@ -631,10 +631,10 @@ packages:
     peerDependencies:
       '@capacitor/core': '>=7.0.0'
 
-  '@capacitor/google-maps@6.0.1':
-    resolution: {integrity: sha512-kLpP644x8Zw75pvagyu92b7i4LPsGblZ4d5gs9lJVm6uCtIS53aG4S25jo2K6qOAwM9KG8yfEYDEpHDiXcODDQ==}
+  '@capacitor/google-maps@7.0.1':
+    resolution: {integrity: sha512-6z8TEK8a1lBuu7m6jRlgjHNd7IRqwlFt1sgvRNJH5SigV8kIkWirmyKEzMxiuX1Dk+3oMEXAfuDZqGPH+GcV3w==}
     peerDependencies:
-      '@capacitor/core': ^6.1.0
+      '@capacitor/core': '>=7.0.0'
 
   '@capacitor/haptics@7.0.0':
     resolution: {integrity: sha512-8uI8rWyAbq8EzkjS+sHZSncyzujHzVbuLKgj8J5H0yUL6+r26F16gVA2iuQuIBvzbSMy7Y0/pUuWlwZr/H8AKg==}
@@ -851,11 +851,11 @@ packages:
     resolution: {integrity: sha512-JubJ5B2pJ4k4yGxaNLdbjrnk9d/iDz6/q8wOilpIowd6PJPgaxCuHBnBszq7Ce2TyMrywm5r4PnKm6V3iiZF+g==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@googlemaps/js-api-loader@1.13.11':
-    resolution: {integrity: sha512-8gKvtDYGtUa3Wg2iC0e53jBOiN5UQ1T12RMq66hjmhAtZMRjI7iuoQn1WdUyoTfYJDmYN3HHc+3l+XOT21p3bQ==}
+  '@googlemaps/js-api-loader@1.16.8':
+    resolution: {integrity: sha512-CROqqwfKotdO6EBjZO/gQGVTbeDps5V7Mt9+8+5Q+jTg5CRMi3Ii/L9PmV3USROrt2uWxtGzJHORmByxyo9pSQ==}
 
-  '@googlemaps/markerclusterer@2.0.15':
-    resolution: {integrity: sha512-/I6Esi5FtyeVHsezN9Kut8zRJoqe7KkTIJXGVqpKFf6BjC7qQ1xRajLMkOz0s8XKgLevbr+KdYjuvmj+LohOGg==}
+  '@googlemaps/markerclusterer@2.5.3':
+    resolution: {integrity: sha512-x7lX0R5yYOoiNectr10wLgCBasNcXFHiADIBdmn7jQllF2B5ENQw5XtZK+hIw4xnV0Df0xhN4LN98XqA5jaiOw==}
 
   '@humanfs/core@0.19.1':
     resolution: {integrity: sha512-5DyQ4+1JEUzejeK1JGICcideyfUbGixgS9jNgex5nqkW+cY7WZhxBigmieN5Qnw9ZosSNVC9KQKyb+GUaGyKUA==}
@@ -1140,9 +1140,6 @@ packages:
 
   '@types/fs-extra@8.1.5':
     resolution: {integrity: sha512-0dzKcwO+S8s2kuF5Z9oUWatQJj5Uq/iqphEtE3GQJVRRYm/tD1LglU2UnXi2A8jLq5umkGouOXOR9y0n613ZwQ==}
-
-  '@types/google.maps@3.50.5':
-    resolution: {integrity: sha512-RuZf1MJtctGlpW+Gd4a/eGtAufUDjMf+eyN1l+B3fbe2YLScJbg8KEljJfb+6vnSPFAeM1/48geVIEg3vqOkxw==}
 
   '@types/google.maps@3.58.1':
     resolution: {integrity: sha512-X9QTSvGJ0nCfMzYOnaVs/k6/4L+7F5uCS+4iUmkLEls6J9S/Phv+m/i3mDeyc49ZBgwab3EFO1HEoBY7k98EGQ==}
@@ -2633,8 +2630,8 @@ packages:
     resolution: {integrity: sha512-gqXddjPqQ6G40VdnI6T6yObEC+pDNvyP95wdQhkWkg7crHH3km5qP1FsOXEkzEQwnz6gz5qGTn1c2Y52wP3OyQ==}
     engines: {'0': node >=0.6.0}
 
-  kdbush@3.0.0:
-    resolution: {integrity: sha512-hRkd6/XW4HTsA9vjVpY9tuXJYLSlelnkTmVFu4M9/7MIYQtFcHpbugAU7UbOfjOiVSVYl2fqgBuJ32JUmRo5Ew==}
+  kdbush@4.0.2:
+    resolution: {integrity: sha512-WbCVYJ27Sz8zi9Q7Q0xHC+05iwkm3Znipc2XTlrnJbsHMYktW4hPhXUE8Ys1engBrvffoSCqbil1JQAa7clRpA==}
 
   keyv@4.5.4:
     resolution: {integrity: sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==}
@@ -3494,8 +3491,8 @@ packages:
   strip-literal@1.3.0:
     resolution: {integrity: sha512-PugKzOsyXpArk0yWmUwqOZecSO0GH0bPoctLcqNDH9J04pVW3lflYE0ujElBGTloevcxF5MofAOZ7C5l2b+wLg==}
 
-  supercluster@7.1.5:
-    resolution: {integrity: sha512-EulshI3pGUM66o6ZdH3ReiFcvHpM3vAigyK+vcxdjpJyEbIIrtbmBdY23mGgnI24uXiGFvrGq9Gkum/8U7vJWg==}
+  supercluster@8.0.1:
+    resolution: {integrity: sha512-IiOea5kJ9iqzD2t7QJq/cREyLHTtSmUT6gQsweojg9WH2sYJqZK9SswTu6jrscO6D1G5v5vYZ9ru/eq85lXeZQ==}
 
   supports-color@5.5.0:
     resolution: {integrity: sha512-QjVjwdXIt408MIiAqCX4oUKsgU2EqAGzs2Ppkm4aQYbjm+ZEWEcW4SfFNTr4uMNZma0ey4f5lgLrkB0aX0QMow==}
@@ -4761,12 +4758,12 @@ snapshots:
       '@capacitor/core': 7.0.1
       '@capacitor/synapse': 1.0.2
 
-  '@capacitor/google-maps@6.0.1(@capacitor/core@7.0.1)':
+  '@capacitor/google-maps@7.0.1(@capacitor/core@7.0.1)':
     dependencies:
       '@capacitor/core': 7.0.1
-      '@googlemaps/js-api-loader': 1.13.11
-      '@googlemaps/markerclusterer': 2.0.15
-      '@types/google.maps': 3.50.5
+      '@googlemaps/js-api-loader': 1.16.8
+      '@googlemaps/markerclusterer': 2.5.3
+      '@types/google.maps': 3.58.1
 
   '@capacitor/haptics@7.0.0(@capacitor/core@7.0.1)':
     dependencies:
@@ -4936,14 +4933,12 @@ snapshots:
       '@eslint/core': 0.12.0
       levn: 0.4.1
 
-  '@googlemaps/js-api-loader@1.13.11':
-    dependencies:
-      fast-deep-equal: 3.1.3
+  '@googlemaps/js-api-loader@1.16.8': {}
 
-  '@googlemaps/markerclusterer@2.0.15':
+  '@googlemaps/markerclusterer@2.5.3':
     dependencies:
       fast-deep-equal: 3.1.3
-      supercluster: 7.1.5
+      supercluster: 8.0.1
 
   '@humanfs/core@0.19.1': {}
 
@@ -5288,8 +5283,6 @@ snapshots:
   '@types/fs-extra@8.1.5':
     dependencies:
       '@types/node': 22.13.5
-
-  '@types/google.maps@3.50.5': {}
 
   '@types/google.maps@3.58.1': {}
 
@@ -6953,7 +6946,7 @@ snapshots:
       json-schema: 0.4.0
       verror: 1.10.0
 
-  kdbush@3.0.0: {}
+  kdbush@4.0.2: {}
 
   keyv@4.5.4:
     dependencies:
@@ -7839,9 +7832,9 @@ snapshots:
     dependencies:
       acorn: 8.14.0
 
-  supercluster@7.1.5:
+  supercluster@8.0.1:
     dependencies:
-      kdbush: 3.0.0
+      kdbush: 4.0.2
 
   supports-color@5.5.0:
     dependencies:

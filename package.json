@@ -17,7 +17,7 @@
     "@capacitor/app": "^7.0.0",
     "@capacitor/core": "^7.0.1",
     "@capacitor/geolocation": "^7.1.1",
-    "@capacitor/google-maps": "^6.0.1",
+    "@capacitor/google-maps": "^7.0.1",
     "@capacitor/haptics": "^7.0.0",
     "@capacitor/ios": "^7.0.1",
     "@capacitor/keyboard": "^7.0.0",

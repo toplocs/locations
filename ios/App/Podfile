@@ -14,7 +14,7 @@ def capacitor_pods
   pod 'CapacitorCordova', :path => '../../node_modules/.pnpm/@capacitor+ios@7.0.1_@capacitor+core@7.0.1/node_modules/@capacitor/ios'
   pod 'CapacitorApp', :path => '../../node_modules/.pnpm/@capacitor+app@7.0.0_@capacitor+core@7.0.1/node_modules/@capacitor/app'
   pod 'CapacitorGeolocation', :path => '../../node_modules/.pnpm/@capacitor+geolocation@7.1.1_@capacitor+core@7.0.1/node_modules/@capacitor/geolocation'
-  pod 'CapacitorGoogleMaps', :path => '../../node_modules/.pnpm/@capacitor+google-maps@6.0.1_@capacitor+core@7.0.1/node_modules/@capacitor/google-maps'
+  pod 'CapacitorGoogleMaps', :path => '../../node_modules/.pnpm/@capacitor+google-maps@7.0.1_@capacitor+core@7.0.1/node_modules/@capacitor/google-maps'
   pod 'CapacitorHaptics', :path => '../../node_modules/.pnpm/@capacitor+haptics@7.0.0_@capacitor+core@7.0.1/node_modules/@capacitor/haptics'
   pod 'CapacitorKeyboard', :path => '../../node_modules/.pnpm/@capacitor+keyboard@7.0.0_@capacitor+core@7.0.1/node_modules/@capacitor/keyboard'
   pod 'CapacitorPreferences', :path => '../../node_modules/.pnpm/@capacitor+preferences@7.0.0_@capacitor+core@7.0.1/node_modules/@capacitor/preferences'
