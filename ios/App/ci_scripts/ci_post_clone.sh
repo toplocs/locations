@@ -7,7 +7,7 @@ export HOMEBREW_NO_INSTALL_CLEANUP=TRUE
 echo "📦 Install CocoaPods"
 brew install cocoapods
 brew install node@18
-brew link node@18
+brew link node@20
 brew install pnpm
 
 # Install dependencies
