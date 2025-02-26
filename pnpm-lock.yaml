@@ -10,31 +10,31 @@ importers:
     dependencies:
       '@capacitor/app':
         specifier: 6.0.2
-        version: 6.0.2(@capacitor/core@7.0.1)
+        version: 6.0.2(@capacitor/core@6.2.0)
       '@capacitor/core':
-        specifier: ^7.0.1
-        version: 7.0.1
+        specifier: ^6.2.0
+        version: 6.2.0
       '@capacitor/geolocation':
         specifier: ^6.1.0
-        version: 6.1.0(@capacitor/core@7.0.1)
+        version: 6.1.0(@capacitor/core@6.2.0)
       '@capacitor/google-maps':
         specifier: ^6.0.1
-        version: 6.0.1(@capacitor/core@7.0.1)
+        version: 6.0.1(@capacitor/core@6.2.0)
       '@capacitor/haptics':
         specifier: 6.0.2
-        version: 6.0.2(@capacitor/core@7.0.1)
+        version: 6.0.2(@capacitor/core@6.2.0)
       '@capacitor/ios':
         specifier: 6.2.0
-        version: 6.2.0(@capacitor/core@7.0.1)
+        version: 6.2.0(@capacitor/core@6.2.0)
       '@capacitor/keyboard':
         specifier: 6.0.3
-        version: 6.0.3(@capacitor/core@7.0.1)
+        version: 6.0.3(@capacitor/core@6.2.0)
       '@capacitor/preferences':
-        specifier: ^7.0.0
-        version: 7.0.0(@capacitor/core@7.0.1)
+        specifier: ^6.0.3
+        version: 6.0.3(@capacitor/core@6.2.0)
       '@capacitor/status-bar':
         specifier: 6.0.2
-        version: 6.0.2(@capacitor/core@7.0.1)
+        version: 6.0.2(@capacitor/core@6.2.0)
       '@ionic/storage':
         specifier: ^4.0.0
         version: 4.0.0
@@ -623,8 +623,8 @@ packages:
     engines: {node: '>=20.0.0'}
     hasBin: true
 
-  '@capacitor/core@7.0.1':
-    resolution: {integrity: sha512-1Ob9bvA/p8g8aNwK6VesxEekGXowLVf6APjkW4LRnr05H+7z/bke+Q5pn9zqh/GgTbIxAQ/rwZrAZvvxkdm1UA==}
+  '@capacitor/core@6.2.0':
+    resolution: {integrity: sha512-B9IlJtDpUqhhYb+T8+cp2Db/3RETX36STgjeU2kQZBs/SLAcFiMama227o+msRjLeo3DO+7HJjWVA1+XlyyPEg==}
 
   '@capacitor/geolocation@6.1.0':
     resolution: {integrity: sha512-jEY5DcZirxX1gOBuOvf/FL7FlPMOKcsnF8PlfYxu7OFwRDD7HRwehEPWtJXR6wSYLgsCujm7yRqKrjtyN+f14g==}
@@ -651,10 +651,10 @@ packages:
     peerDependencies:
       '@capacitor/core': ^6.0.0
 
-  '@capacitor/preferences@7.0.0':
-    resolution: {integrity: sha512-crlTtTIWcdlLfQULJ9ZiCPpvpm51WoZ8CIVG3+XSJGyavjD4bscHP15U24ya5SjpYmI44bGY9lvhvcSCfB5+AA==}
+  '@capacitor/preferences@6.0.3':
+    resolution: {integrity: sha512-3I1BbhhCBTMBziVvr0fU7RCRXqGvhUW/apHLRJSaJAWonASya5rp6AWsHv1lW1tkF0avUOMwp6e7iNA4UUGu8g==}
     peerDependencies:
-      '@capacitor/core': '>=7.0.0'
+      '@capacitor/core': ^6.0.0
 
   '@capacitor/status-bar@6.0.2':
     resolution: {integrity: sha512-AmRIX6QvFemItlY7/69ARkIAqitRQqJ2qwgZmD1KqgFb78pH+XFXm1guvS/a8CuOOm/IqZ4ddDbl20yxtBqzGA==}
@@ -1156,9 +1156,6 @@ packages:
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
 
-  '@types/normalize-package-data@2.4.4':
-    resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
-
   '@types/sinonjs__fake-timers@8.1.1':
     resolution: {integrity: sha512-0kSuKjAS0TrGLJ0M/+8MaFkGsQhZpB6pxOmvS3K8FYI72K//YmdfoW9X2qPsAKh1mkwxGD5zib9s1FIFed6E8g==}
 
@@ -1455,9 +1452,6 @@ packages:
 
   axios@1.8.1:
     resolution: {integrity: sha512-NN+fvwH/kV01dYUQ3PTOZns4LWtWhOFCAhQ/pHb88WQ1hNe5V/dvFwc4VJcDL11LT9xSX0QtsR8sWUuyOuOq7g==}
-
-  b4a@1.6.7:
-    resolution: {integrity: sha512-OnAYlL5b7LEkALw87fUVafQw5rVR9RjwGd4KUwNQ6DrrNmaVaUCgLipfVlzrPQ4tWOR9P0IXGNOx50jYCCdSJg==}
 
   b4a@1.6.7:
     resolution: {integrity: sha512-OnAYlL5b7LEkALw87fUVafQw5rVR9RjwGd4KUwNQ6DrrNmaVaUCgLipfVlzrPQ4tWOR9P0IXGNOx50jYCCdSJg==}
@@ -1902,10 +1896,6 @@ packages:
     resolution: {integrity: sha512-aW35yZM6Bb/4oJlZncMH2LCoZtJXTRxES17vE3hoRiowU2kWHaJKFkSBDnDR+cm9J+9QhXmREyIfv0pji9ejCQ==}
     engines: {node: '>=10'}
 
-  decompress-response@6.0.0:
-    resolution: {integrity: sha512-aW35yZM6Bb/4oJlZncMH2LCoZtJXTRxES17vE3hoRiowU2kWHaJKFkSBDnDR+cm9J+9QhXmREyIfv0pji9ejCQ==}
-    engines: {node: '>=10'}
-
   deep-eql@4.1.4:
     resolution: {integrity: sha512-SUwdGfqdKOwxCPeVYjwSyRpJ7Z+fhpwIAtmCUdZIWZ/YP5R9WAsyuSgpLVDi9bjWoN2LXHNss/dk3urXtdQxGg==}
     engines: {node: '>=6'}
@@ -2275,11 +2265,6 @@ packages:
   get-proto@1.0.1:
     resolution: {integrity: sha512-sTSfBjoXBp89JvIKIefqw7U2CCebsc74kiY6awiGogKtoSGbgjYE/G/+l9sF3MWFPNc9IcoOC4ODfKHfxFmp0g==}
     engines: {node: '>= 0.4'}
-
-  get-pkg-repo@4.2.1:
-    resolution: {integrity: sha512-2+QbHjFRfGB74v/pYWjd5OhU3TDIC2Gv/YKUTk/tCvAz0pkn/Mz6P3uByuBimLOcPvN2jYdScl3xGFSrx0jEcA==}
-    engines: {node: '>=6.9.0'}
-    hasBin: true
 
   get-stream@5.2.0:
     resolution: {integrity: sha512-nBF+F1rAZVCu/p7rjzgA+Yb4lfYXrpl7a6VmJrU8wF9I1CKvP/QwPNZHnOlwbTkY6dvtFIzFMSyQXbLoTQPRpA==}
@@ -2876,13 +2861,6 @@ packages:
   ms@2.1.2:
     resolution: {integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==}
 
-  modify-values@1.0.1:
-    resolution: {integrity: sha512-xV2bxeN6F7oYjZWTe/YPAy6MN2M+sL4u/Rlm2AHCIVGfo2p1yGmBHQ6vHehl4bRTZBdHu3TSkWdYgkwpYzAGSw==}
-    engines: {node: '>=0.10.0'}
-
-  ms@2.1.2:
-    resolution: {integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==}
-
   ms@2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
 
@@ -3320,9 +3298,6 @@ packages:
   safe-buffer@5.1.2:
     resolution: {integrity: sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g==}
 
-  safe-buffer@5.1.2:
-    resolution: {integrity: sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g==}
-
   safe-buffer@5.2.1:
     resolution: {integrity: sha512-rp3So07KcdmmKbGvgaNxQSJr7bGVSVk5S9Eq1F+ppbRo70+YeaDxkw5Dd8NPN+GD6bjnYm2VuPuCXmpuYvmCXQ==}
 
@@ -3644,23 +3619,6 @@ packages:
     engines: {node: '>=18.12'}
     peerDependencies:
       typescript: '>=4.8.4'
-
-  ts-node@10.9.2:
-    resolution: {integrity: sha512-f0FFpIdcHgn8zcPSbf1dRevwt047YMnaiJM3u2w2RewrB+fob/zePZcrOyQoLMMO7aBIddLcQIEK5dYjkLnGrQ==}
-    hasBin: true
-    peerDependencies:
-      '@swc/core': '>=1.2.50'
-      '@swc/wasm': '>=1.2.50'
-      '@types/node': '*'
-      typescript: '>=2.7'
-    peerDependenciesMeta:
-      '@swc/core':
-        optional: true
-      '@swc/wasm':
-        optional: true
-
-  tslib@2.6.2:
-    resolution: {integrity: sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==}
 
   ts-node@10.9.2:
     resolution: {integrity: sha512-f0FFpIdcHgn8zcPSbf1dRevwt047YMnaiJM3u2w2RewrB+fob/zePZcrOyQoLMMO7aBIddLcQIEK5dYjkLnGrQ==}
@@ -4720,9 +4678,9 @@ snapshots:
       '@babel/helper-string-parser': 7.25.9
       '@babel/helper-validator-identifier': 7.25.9
 
-  '@capacitor/app@6.0.2(@capacitor/core@7.0.1)':
+  '@capacitor/app@6.0.2(@capacitor/core@6.2.0)':
     dependencies:
-      '@capacitor/core': 7.0.1
+      '@capacitor/core': 6.2.0
 
   '@capacitor/assets@3.0.5(@types/node@22.13.5)(typescript@5.7.3)':
     dependencies:
@@ -4791,40 +4749,40 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@capacitor/core@7.0.1':
+  '@capacitor/core@6.2.0':
     dependencies:
       tslib: 2.8.1
 
-  '@capacitor/geolocation@6.1.0(@capacitor/core@7.0.1)':
+  '@capacitor/geolocation@6.1.0(@capacitor/core@6.2.0)':
     dependencies:
-      '@capacitor/core': 7.0.1
+      '@capacitor/core': 6.2.0
 
-  '@capacitor/google-maps@6.0.1(@capacitor/core@7.0.1)':
+  '@capacitor/google-maps@6.0.1(@capacitor/core@6.2.0)':
     dependencies:
-      '@capacitor/core': 7.0.1
+      '@capacitor/core': 6.2.0
       '@googlemaps/js-api-loader': 1.13.11
       '@googlemaps/markerclusterer': 2.0.15
       '@types/google.maps': 3.50.5
 
-  '@capacitor/haptics@6.0.2(@capacitor/core@7.0.1)':
+  '@capacitor/haptics@6.0.2(@capacitor/core@6.2.0)':
     dependencies:
-      '@capacitor/core': 7.0.1
+      '@capacitor/core': 6.2.0
 
-  '@capacitor/ios@6.2.0(@capacitor/core@7.0.1)':
+  '@capacitor/ios@6.2.0(@capacitor/core@6.2.0)':
     dependencies:
-      '@capacitor/core': 7.0.1
+      '@capacitor/core': 6.2.0
 
-  '@capacitor/keyboard@6.0.3(@capacitor/core@7.0.1)':
+  '@capacitor/keyboard@6.0.3(@capacitor/core@6.2.0)':
     dependencies:
-      '@capacitor/core': 7.0.1
+      '@capacitor/core': 6.2.0
 
-  '@capacitor/preferences@7.0.0(@capacitor/core@7.0.1)':
+  '@capacitor/preferences@6.0.3(@capacitor/core@6.2.0)':
     dependencies:
-      '@capacitor/core': 7.0.1
+      '@capacitor/core': 6.2.0
 
-  '@capacitor/status-bar@6.0.2(@capacitor/core@7.0.1)':
+  '@capacitor/status-bar@6.0.2(@capacitor/core@6.2.0)':
     dependencies:
-      '@capacitor/core': 7.0.1
+      '@capacitor/core': 6.2.0
 
   '@colors/colors@1.5.0':
     optional: true
@@ -4993,8 +4951,6 @@ snapshots:
   '@humanwhocodes/retry@0.3.1': {}
 
   '@humanwhocodes/retry@0.4.2': {}
-
-  '@hutson/parse-repository-url@3.0.2': {}
 
   '@hutson/parse-repository-url@3.0.2': {}
 
@@ -5580,12 +5536,6 @@ snapshots:
     dependencies:
       js-beautify: 1.15.3
       vue-component-type-helpers: 2.2.4
-
-  '@xml-tools/parser@1.0.11':
-    dependencies:
-      chevrotain: 7.1.1
-
-  '@xmldom/xmldom@0.7.13': {}
 
   '@xml-tools/parser@1.0.11':
     dependencies:
@@ -6204,10 +6154,6 @@ snapshots:
   decamelize@1.2.0: {}
 
   decimal.js@10.5.0: {}
-
-  decompress-response@6.0.0:
-    dependencies:
-      mimic-response: 3.1.0
 
   decompress-response@6.0.0:
     dependencies:
@@ -6857,10 +6803,6 @@ snapshots:
 
   is-arrayish@0.3.2: {}
 
-  is-arrayish@0.2.1: {}
-
-  is-arrayish@0.3.2: {}
-
   is-core-module@2.16.1:
     dependencies:
       hasown: 2.0.2
@@ -7287,20 +7229,6 @@ snapshots:
       semver: 7.7.1
       validate-npm-package-license: 3.0.4
 
-  normalize-package-data@2.5.0:
-    dependencies:
-      hosted-git-info: 2.8.9
-      resolve: 1.22.10
-      semver: 5.7.2
-      validate-npm-package-license: 3.0.4
-
-  normalize-package-data@3.0.3:
-    dependencies:
-      hosted-git-info: 4.1.0
-      is-core-module: 2.16.1
-      semver: 7.6.3
-      validate-npm-package-license: 3.0.4
-
   npm-run-path@4.0.1:
     dependencies:
       path-key: 3.1.1
@@ -7598,8 +7526,6 @@ snapshots:
 
   regexp-to-ast@0.5.0: {}
 
-  regexp-to-ast@0.5.0: {}
-
   regexpu-core@6.2.0:
     dependencies:
       regenerate: 1.4.2
@@ -7725,21 +7651,6 @@ snapshots:
       node-addon-api: 6.1.0
       prebuild-install: 7.1.3
       semver: 7.7.1
-      simple-get: 4.0.1
-      tar-fs: 3.0.8
-      tunnel-agent: 0.6.0
-    transitivePeerDependencies:
-      - bare-buffer
-
-  set-blocking@2.0.0: {}
-
-  sharp@0.32.6:
-    dependencies:
-      color: 4.2.3
-      detect-libc: 2.0.3
-      node-addon-api: 6.1.0
-      prebuild-install: 7.1.3
-      semver: 7.6.3
       simple-get: 4.0.1
       tar-fs: 3.0.8
       tunnel-agent: 0.6.0
@@ -8051,8 +7962,6 @@ snapshots:
 
   tr46@0.0.3: {}
 
-  tr46@0.0.3: {}
-
   tr46@4.1.1:
     dependencies:
       punycode: 2.3.1
@@ -8350,15 +8259,6 @@ snapshots:
   wrappy@1.0.2: {}
 
   ws@8.18.1: {}
-
-  xcode@3.0.1:
-    dependencies:
-      simple-plist: 1.3.1
-      uuid: 7.0.3
-
-  xml-js@1.6.11:
-    dependencies:
-      sax: 1.4.1
 
   xcode@3.0.1:
     dependencies:
