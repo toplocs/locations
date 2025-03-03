@@ -51,6 +51,7 @@
         </ion-button>
       </ion-list>
     </form>
+
   </ion-page>
 </template>
 
@@ -69,7 +70,7 @@
     IonButton,
     IonImage,
     IonTitle,
-    IonImg
+    IonImg,
   } from '@ionic/vue';
   import { Session, Profile } from '../types';
   import { reloadSession} from '@/services/sessionService';

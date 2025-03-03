@@ -43,17 +43,19 @@
     IonItem,
     IonLabel,
     IonList,
+    IonListHeader,
     IonAvatar,
     IonChip,
     IonCheckbox,
     IonButton,
     IonIcon,
-    IonAlert
+    IonAlert,
+    alertController
   } from '@ionic/vue';
   import { pin } from 'ionicons/icons';
   import { inject } from 'vue';
-  import { alertController } from '@ionic/vue';
   import { Profile } from '../toplocs';
+  import { useProfile } from '@/composables/profile';
 
   const props = defineProps<{
     locations: ProfileLocation[];
@@ -63,8 +65,7 @@
     month: 'long', 
     day: 'numeric' 
   });
-  const profile = inject('profile');
-  const current = inject('current');
+  const { profile } = useProfile();
 
   const updateCurrentLocation = async (lat, lng) => {
     try {

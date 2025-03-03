@@ -95,7 +95,7 @@
 			    lat: latitude,
 			    lng: longitude
 			  },
-			  tintColor: { r: 0, g: 0, b: 255, a: 1 },
+			  tintColor: { r: 255, g: 155, b: 0, a: 1 },
 			});
 		  selection.value = {
 		  	title: 'New location',
@@ -109,15 +109,13 @@
 	}
 
 	const getMyLocation = async () => {
-		if (location.value) {
-			map.value.enableCurrentLocation(true);
-		  map.value.setCamera({
-				coordinate: {
-					lat: location.value.latitude,
-					lng: location.value.longitude,
-				},
-			});
-		}
+		map.value.enableCurrentLocation(true);
+	  map.value.setCamera({
+			coordinate: {
+				lat: location.value?.latitude || 0,
+				lng: location.value?.longitude || 0,
+			},
+		});
 	}
 
 	const fetchNearby = async ({ northeast, southwest }) => {
@@ -150,20 +148,15 @@
 		}
   }
 
-	watch(location, async () => {
-		console.log(location.value)
+	watch(() => location.value, async () => {
 		if (map.value) {
 			await getMyLocation();
 		} 
 	});
 
 	onMounted(async () => {
-		if (!map.value) {
-			await createMap();
-		}
+		if (!map.value) await createMap();
+		if (location.value) await getMyLocation();
+		console.log(location.value);
 	});
-
-	onUnmounted(async () => {
-		await map.value.destroy();
-	})
 </script>

@@ -10,7 +10,6 @@ export function profileProvider() {
       const id = (await Preferences.get({ key: 'profile' })).value ?? profileId;
       if (!id) throw new Error('Profile ID not found');
       const { data } = await axios.get(`/api/profile/${id}`);
-      profile.value = data;
 
       return data;
     } catch (e) {

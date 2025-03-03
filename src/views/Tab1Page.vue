@@ -29,10 +29,7 @@
         </ion-toolbar>
       </ion-header>
 
-      <SelectProfile
-        :profiles="profiles"
-        @selectProfile="handleProfileSelect"
-      />
+      <SelectProfile :profiles="profiles" />
 
       <ion-item>
         <ion-label>
@@ -71,7 +68,9 @@
     IonChip,
     IonIcon,
     IonRefresher,
-    IonRefresherContent
+    IonRefresherContent,
+    IonSelect,
+    IonSelectOption,
   } from '@ionic/vue';
   import { pencil } from 'ionicons/icons';
   import { ref, inject, watch, onMounted, watchEffect } from 'vue';
@@ -89,7 +88,6 @@
   const locations = ref<Location[]>([]);
   const relationKey = ref<String>('current');
   const locationDetails = ref(null);
-
 
   const getProfiles = async () => {
     try {
@@ -146,7 +144,7 @@
     }
   }
 
-  watch(profile, async() => {
+  watch(() => profile.value, async () => {
     if (profile.value) {
       locations.value = await findProfileLocations(profile.value.id);
       location.value = findCurrent();
@@ -156,9 +154,14 @@
 
   watch(() => route.fullPath, async () => {
     profiles.value = await getProfiles();
+    if (!profile.value) setProfile(profiles.value[0]);
   });
 
   onMounted(async () => {
     profiles.value = await getProfiles();
+    if (profile.value) {
+      locations.value = await findProfileLocations(profile.value.id);
+      location.value = findCurrent();
+    } else setProfile(profiles.value[0]);
   });
 </script>

@@ -1,11 +1,11 @@
 import axios from 'axios';
-import { ref, inject, provide, readonly } from 'vue';
+import { ref, computed, inject, provide, readonly } from 'vue';
 import { App } from '@capacitor/app'
 import { Preferences } from '@capacitor/preferences';
 
 export function userProvider() {
   const user = ref<User | null>(null);
-  const isAuthenticated = readonly(user.value !== null);
+  const isAuthenticated = computed(user.value !== null);
 
   const getUser = async (userId: string) => {
     try {

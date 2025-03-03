@@ -41,9 +41,13 @@
   import { useLocation } from '@/composables/location';
 
   const { user, getUser } = useUser();
-  const { profile, getProfile, current } = useProfile();
-  const { location, getLocation, updateCurrentLocation } = useLocation();
-
+  const { profile, getProfile } = useProfile();
+  const {
+    location,
+    current,
+    getLocation,
+    updateCurrentLocation
+  } = useLocation();
 
   watch(() => current, async () => {
     if (current.value) {
@@ -65,7 +69,9 @@
       //config
     }, async (position) => {
       if (position && profile.value) {
+        console.log('update current')
         current.value = await updateCurrentLocation(
+          profile.value.id,
           position.coords.latitude,
           position.coords.longitude,
         );
