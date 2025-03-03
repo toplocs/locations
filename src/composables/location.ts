@@ -19,9 +19,13 @@ export function locationProvider() {
     }
   }
 
-  const updateCurrentLocation = async (lat, lng) => {
+  const updateCurrentLocation = async (
+    profileId: string,
+    lat: string,
+    lng: string,
+  ) => {
     try {
-      const response = await axios.post(`/api/v2/location/update/${location.value?.id}`,
+      const response = await axios.post(`/api/v2/location/update/${profileId}`,
       {
         lat: lat,
         lng: lng
@@ -36,7 +40,7 @@ export function locationProvider() {
 
   watch(location, async () => {
     if (location.value) {
-      console.log(location.value, 'Location has been updated');
+      //console.log(location.value, 'Location has been updated');
     }
   });
 

@@ -8,10 +8,10 @@
       <ion-select
         aria-label="Select your profile"
         placeholder="Select your profile"
-        justify="start"
         interface="action-sheet"
-        :value="profile?.id"
-        @ionChange="(e) => selectProfile(e, x)"
+        justify="start"
+        :value="selectedId"
+        v-model="selectedId"
       >
         <ion-select-option
           v-for="x of profiles"
@@ -32,6 +32,7 @@
     IonSelect,
     IonSelectOption
   } from '@ionic/vue';
+  import { ref, watch, onMounted } from 'vue';
   import { Profile } from '../toplocs';
   import { useProfile } from '@/composables/profile';
 
@@ -39,12 +40,23 @@
     profiles: Profile[];
   }>();
   const emit = defineEmits(['selectProfile']);
-  const { profile } = useProfile();
+  const { profile, setProfile } = useProfile();
+  const selectedId = ref(null);
 
-  const selectProfile = async (e: CustomEvent) => {
-    const selected = props.profiles.find(x => x.id == e.detail.value);
-    emit('selectProfile', selected);
-  }
+  watch(() => profile.value, () => {
+    selectedId.value = profile.value?.id;
+  });
 
+  watch(() => selectedId.value, () => {
+    if (props.profiles) {
+      const selected = props.profiles.find(
+        x => x.id == selectedId.value
+      );
+      setProfile(selected);
+    }
+  });
 
+  onMounted(() => {
+    selectedId.value = profile.value?.id
+  });
 </script>
