@@ -67,13 +67,14 @@
   } from '@ionic/vue';
   import { ref, inject } from 'vue';
   import { useRouter } from 'vue-router';
+  import { useProfile } from '@/composables/profile';
 
   const props = defineProps<{
     coordinate: Object;
     close: Function;
   }>();
   const router = useRouter();
-  const profile = inject('profile');
+  const { profile } = useProfile();
   const errorMessage = ref('');
   const form = ref<HTMLFormElement | null>(null);
 

@@ -31,6 +31,17 @@
 	const places = ref([]);
 	const zoom = ref(8);
 
+	const addPlace = async (place: Location) => {
+		const markerId = await map.value.addMarker({
+		  coordinate: {
+		    lat: place.latitude,
+		    lng: place.longitude
+		  },
+		  zoom: place.zoom,
+		});
+		place.markerId = markerId;
+	}
+
 	const createMap = async () => {
 	  if (!mapRef.value) return
 	  map.value = await GoogleMap.create({
@@ -39,18 +50,21 @@
 	    //forceCreate: true,
 	    apiKey: import.meta.env.VITE_MAPS_API_KEY,
 	    config: {
+	    	mapId: '3d8941b79754f0de',
+	    	androidMapId: '3d8941b79754f0de',
+	    	iOSMapId: '3d8941b79754f0de',
 	      center: {
 	        lat: 0,
 	        lng: 0,
 	      },
 	      zoom: 8,
-	      styles: [{
+	      /*styles: [{ //deprecated
           featureType: 'poi',
           stylers: [{ visibility: 'off' }],
 	      }, {
           featureType: 'transit',
           stylers: [{ visibility: 'off' }],
-	      }]
+	      }]*/
 	    },
 	  });
 
@@ -58,13 +72,7 @@
 			zoom.value = event.zoom;
 			places.value = await fetchNearby(event.bounds);
 			for (let place of places.value) {
-				const markerId = await map.value.addMarker({
-				  coordinate: {
-				    lat: place.latitude,
-				    lng: place.longitude
-				  },
-				});
-				place.markerId = markerId;
+				await addPlace(place)
 			}
 		});
 
@@ -77,12 +85,13 @@
 						lat: latitude,
 						lng: longitude
 					},
-					zoom: place.value?.zoom || 8,
+					zoom: place.zoom,
 					animate: true,
 				});
 				await openModal(event, place);
 			}
 			//await map.value.enableClustering()
+			return;
 		});
 
 		await map.value?.setOnMapClickListener(async (event) => {
@@ -93,7 +102,8 @@
 			selected.value = await map.value.addMarker({
 			  coordinate: {
 			    lat: latitude,
-			    lng: longitude
+			    lng: longitude,
+			    zoom: zoom.value || 8,
 			  },
 			  tintColor: { r: 255, g: 155, b: 0, a: 1 },
 			});
@@ -157,6 +167,7 @@
 	onMounted(async () => {
 		if (!map.value) await createMap();
 		if (location.value) await getMyLocation();
-		console.log(location.value);
 	});
+
+	defineExpose({ places, addPlace });
 </script>

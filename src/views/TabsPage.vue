@@ -69,7 +69,6 @@
       //config
     }, async (position) => {
       if (position && profile.value) {
-        console.log('update current')
         current.value = await updateCurrentLocation(
           profile.value.id,
           position.coords.latitude,
