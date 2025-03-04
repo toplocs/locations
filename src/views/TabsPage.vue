@@ -49,7 +49,7 @@
     updateCurrentLocation
   } = useLocation();
 
-  watch(() => current, async () => {
+  watch(() => current.value, async () => {
     if (current.value) {
       const toast = await toastController.create({
         message: `Your current location is now ${current.value?.title}`,
