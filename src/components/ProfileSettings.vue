@@ -50,6 +50,13 @@
         />
       </ion-item>
 
+      <ion-item>
+        <ion-range
+          label-placement="fixed"
+          label="Default zoom:"
+        />
+      </ion-item>
+
       <ion-button type="submit" class="ion-padding">
         Submit
       </ion-button>
@@ -63,6 +70,7 @@
     IonInput,
     IonItem,
     IonList,
+    IonRange,
     IonButton,
   } from '@ionic/vue';
   import { ref, inject, onMounted } from 'vue';
