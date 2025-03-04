@@ -31,6 +31,16 @@
 	const places = ref([]);
 	const zoom = ref(8);
 
+	const addPlace = async (place: Location) => {
+		const markerId = await map.value.addMarker({
+		  coordinate: {
+		    lat: place.latitude,
+		    lng: place.longitude
+		  },
+		});
+		place.markerId = markerId;
+	}
+
 	const createMap = async () => {
 	  if (!mapRef.value) return
 	  map.value = await GoogleMap.create({
@@ -58,13 +68,7 @@
 			zoom.value = event.zoom;
 			places.value = await fetchNearby(event.bounds);
 			for (let place of places.value) {
-				const markerId = await map.value.addMarker({
-				  coordinate: {
-				    lat: place.latitude,
-				    lng: place.longitude
-				  },
-				});
-				place.markerId = markerId;
+				await addPlace(place)
 			}
 		});
 
@@ -83,6 +87,7 @@
 				await openModal(event, place);
 			}
 			//await map.value.enableClustering()
+			return;
 		});
 
 		await map.value?.setOnMapClickListener(async (event) => {
@@ -158,6 +163,7 @@
 	onMounted(async () => {
 		if (!map.value) await createMap();
 		if (location.value) await getMyLocation();
-		console.log(location.value);
 	});
+
+	defineExpose({ addPlace });
 </script>

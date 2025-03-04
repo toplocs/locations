@@ -15,7 +15,7 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <MapComponent />
+      <MapComponent ref="mapRef" />
     </ion-content>
   </ion-page>
 </template>
@@ -37,6 +37,7 @@
   import NewLocationModal from '@/components/map/NewLocationModal.vue';
 
   const selection = ref(null);
+  const mapRef = ref(null);
 
   const openModal = async (event: Event) => {
     if (selection.value) {
@@ -50,7 +51,9 @@
       modal.present();
 
       const { data, role } = await modal.onWillDismiss();
-      if (data) console.log(data, role); //add location to the map component
+      if (data && role == 'confirm') {
+        mapRef.value?.addPlace(data);
+      }
     }
   }
 
