@@ -37,6 +37,7 @@
 		    lat: place.latitude,
 		    lng: place.longitude
 		  },
+		  zoom: place.zoom,
 		});
 		place.markerId = markerId;
 	}
@@ -76,12 +77,13 @@
 			const { latitude, longitude, markerId } = event;
 			const place = places.value.find(x => x.markerId == markerId);
 			if (place) {
+				console.log(place.zoom)
 				map.value.setCamera({
 					coordinate: {
 						lat: latitude,
 						lng: longitude
 					},
-					zoom: place.value?.zoom || 8,
+					zoom: place.zoom,
 					animate: true,
 				});
 				await openModal(event, place);
@@ -165,5 +167,5 @@
 		if (location.value) await getMyLocation();
 	});
 
-	defineExpose({ addPlace });
+	defineExpose({ places, addPlace });
 </script>

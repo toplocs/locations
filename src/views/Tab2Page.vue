@@ -52,6 +52,7 @@
 
       const { data, role } = await modal.onWillDismiss();
       if (data && role == 'confirm') {
+        mapRef.value?.places.push(data);
         mapRef.value?.addPlace(data);
       }
     }
