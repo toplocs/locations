@@ -50,18 +50,21 @@
 	    //forceCreate: true,
 	    apiKey: import.meta.env.VITE_MAPS_API_KEY,
 	    config: {
+	    	mapId: '3d8941b79754f0de',
+	    	androidMapId: '3d8941b79754f0de',
+	    	iOSMapId: '3d8941b79754f0de',
 	      center: {
 	        lat: 0,
 	        lng: 0,
 	      },
 	      zoom: 8,
-	      styles: [{
+	      /*styles: [{ //deprecated
           featureType: 'poi',
           stylers: [{ visibility: 'off' }],
 	      }, {
           featureType: 'transit',
           stylers: [{ visibility: 'off' }],
-	      }]
+	      }]*/
 	    },
 	  });
 
@@ -77,7 +80,6 @@
 			const { latitude, longitude, markerId } = event;
 			const place = places.value.find(x => x.markerId == markerId);
 			if (place) {
-				console.log(place.zoom)
 				map.value.setCamera({
 					coordinate: {
 						lat: latitude,
