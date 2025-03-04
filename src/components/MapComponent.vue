@@ -93,7 +93,8 @@
 			selected.value = await map.value.addMarker({
 			  coordinate: {
 			    lat: latitude,
-			    lng: longitude
+			    lng: longitude,
+			    zoom: zoom.value || 8,
 			  },
 			  tintColor: { r: 255, g: 155, b: 0, a: 1 },
 			});
