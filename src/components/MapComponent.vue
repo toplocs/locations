@@ -78,6 +78,9 @@
 
 		await map.value?.setOnMarkerClickListener(async (event) => {
 			const { latitude, longitude, markerId } = event;
+			if (selected.value) {
+				await map.value.removeMarker(selected.value);
+			}
 			const place = places.value.find(x => x.markerId == markerId);
 			if (place) {
 				map.value.setCamera({

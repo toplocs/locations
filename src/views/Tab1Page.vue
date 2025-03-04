@@ -44,8 +44,8 @@
 
       <div ref="locationDetails">
         <LocationDetails
-          v-if="location"
-          :location="location"
+          v-if="place"
+          :location="place"
           :status="relationKey"
         />
       </div>
@@ -79,12 +79,14 @@
   import LocationDetails from '../components/LocationDetails.vue';
   import { useUser } from '@/composables/user';
   import { useProfile } from '@/composables/profile';
+  import { useLocation} from '@/composables/location';
 
   const route = useRoute();
   const { user } = useUser();
   const { profile, getProfile, setProfile } = useProfile();
+  const { current } = useLocation();
+  const place = ref<Location>(null);
   const profiles = ref<Profile[]>([]);
-  const location = ref<Location>(null);
   const locations = ref<Location[]>([]);
   const relationKey = ref<String>('current');
   const locationDetails = ref(null);
@@ -123,7 +125,7 @@
       profiles.value = await fetchProfiles();
       if (profile.value) {
         locations.value = await findProfileLocations(profile.value.id);
-        location.value = findCurrent();
+        place.value = findCurrent();
       }
       e.target.complete();
     }, 2000);
@@ -134,7 +136,7 @@
   }
 
   const fetchLocation = async (next: ProfileLocation) => {
-    location.value = next.Location;
+    place.value = next.Location;
     relationKey.value = next.key;
 
     if (locationDetails.value) {
@@ -144,13 +146,17 @@
     }
   }
 
-  watch(() => profile.value, async () => {
+  const updateData = async () => {
     if (profile.value) {
       locations.value = await findProfileLocations(profile.value.id);
-      location.value = findCurrent();
+      place.value = findCurrent();
     }
-  });
+    console.log(place.value);
+  }
 
+  watch(() => current.value, async () => (await updateData()));
+
+  watch(() => profile.value, async () => (await updateData()));
 
   watch(() => route.fullPath, async () => {
     profiles.value = await getProfiles();
@@ -160,8 +166,7 @@
   onMounted(async () => {
     profiles.value = await getProfiles();
     if (profile.value) {
-      locations.value = await findProfileLocations(profile.value.id);
-      location.value = findCurrent();
+      await updateData()
     } else setProfile(profiles.value[0]);
   });
 </script>
